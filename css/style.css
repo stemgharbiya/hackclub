@@ -337,11 +337,8 @@ a{
   letter-spacing: -2px;
   margin: 0;
   margin-bottom: 20px;
-  font-style: italic;
 }
-.landing .text h1::first-line{
-  font-style: normal;
-}
+
 @media(max-width: 767px){
   .landing .text h1{
       font-size: 28px;
@@ -350,7 +347,6 @@ a{
 .landing .text h1 span{
   font-size: 50px;
   font-weight: 700;
-  font-style: normal;
   margin: 5px;
   background-color: #ec3750;
   cursor: pointer;
@@ -362,7 +358,10 @@ a{
   color: white;
   letter-spacing: -1px;
 }
-
+.landing .text h1 span:hover{
+  scale: 1.03;
+  box-shadow: 0 0 10px 0px #777;
+}
 .landing .text p{
   max-width: 500px;
   font-size: 23px;
