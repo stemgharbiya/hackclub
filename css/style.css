@@ -1142,7 +1142,25 @@ a{
   padding: 30px 40px;
   border-radius: 50px;
   margin: 20px auto;
-  max-width: 100%;
+  max-width: 100%; 
+  transition: .3s;
+}
+.events .subscribe form a{
+  background-color: #ec3750; 
+  color: #ffffff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: 0.3s ease !important;
+}
+
+.events .subscribe form a:hover{
+  scale: 1.03;
+  box-shadow: 0 0 20px #ddd;
 }
 @media(max-width:767px){
   .events .subscribe form{
