@@ -1088,6 +1088,17 @@ a{
   display: flex;
   justify-content: center;
   gap: 10px;
+} 
+@media (max-width:767px) {
+  .events .info .time{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  
 }
 .events .info .time .unit{
   display: flex;
