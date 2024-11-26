@@ -205,31 +205,38 @@ a{
   height: 4px;
   width: 0%;
   background-color: var(--main-color);
-  transition:  var(--main-transition);
+  transition:  var(--main-transition);   
 }
-.header .main-nav > li a:hover::before{
+.header .main-nav > li a:not(.homeapply):hover::before{
   width: 100%;
 }
 .header .main-nav > li a:hover{
   color: var(--main-color);
 }
+.header .main-nav > li{
+  display: flex;
+  align-items: center;
+}
 .header .homeapply{
-  background-color: #ec3750; 
-  color: #ffffff;
-  padding: 15px 20px;
+  background-color: #ec3750;
+  color: #ffffff !important;
   border: none;
-  height: fit-content;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: -112px;
-  display: block;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  text-decoration: none; 
-  transition: 0.3s ease;
-  rotate: -3deg;
+  font-weight: bold;
+  height: 60px !important;
+}
+
+@media (max-width: 991px){
+  .header .homeapply{
+    display: none;
+  }
+}
+@media (min-width: 992px) and (max-width: 1200px){
+  .header .homeapply{
+    display: none;
+  }
 }
 .header .homeapply:hover{
   scale: 1.03;
