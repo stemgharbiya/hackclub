@@ -411,6 +411,7 @@ a{
   width: 500px;
   animation: up-and-down 3s linear infinite;
   position: relative;
+  border-radius: 36px;
 }
 @media(max-width:991px){
   .landing .image img{
