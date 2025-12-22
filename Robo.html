@@ -1,64 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="author" content="Hack Club" />
     <meta name="copyright" content="Hack Club" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Every day, thousands of Hack Clubbers gather online and in-person to make things with code. Whether you’re a beginner programmer or have years of experience." />
+    <meta name="description" content="Hack Club Gharbiya Robotics Branch." />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="website" />j
+    <meta property="og:type" content="website" />
     <meta property="og:title" content="Hack Club" />
-    <meta property="og:description"
-      content="Every day, thousands of Hack Clubbers gather online and in-person to make things with code. Whether you’re a beginner programmer or have years of experience." />
-    <meta property="og:url" content="/" />
-    <meta property="og:site_name" content="Hack Club" />
-    <meta property="article:publisher" content="Gharbiya Branch" />
-    <!--Title-->
-    <title>Hack Club</title>
-    <!--Icon-->    
+    <title>Hack Club - Robotics</title>
     <link rel="icon" type="image/x-icon" href="./Images/home.png" />
-    <!-- Google Fonts  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- Font awesome library -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="css/all.min.css">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <!-- Start Header  -->
-    <div class="header" id="header">
-        <div class="container">
-            <a href="index.html" class="logo">Hack Club</a>
-            <ul class="main-nav">
-                <li>
-                    <a href="Activities.html">Activities</a>
-                </li>
-                <li>
-                    <a href="https://hackclub.com/arcade/">Arcade</a>  
-                </li>
-                <li>
-                    <a href="Gallary.html">Gallary</a>  
-                </li>
-                <li>
-                    <a href="Joinus.html">Join Us</a>  
-                </li>
-            </ul>
+    <!-- Hack Club HTML Banner -->
+    <a href="https://hackclub.com/" target="_blank">
+        <img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 1050;"
+            src="https://assets.hackclub.com/flag-orpheus-top.svg" alt="Hack Club" />
+    </a>
+
+    <!-- Start Header (Bootstrap Navbar) -->
+    <nav class="navbar navbar-expand-lg header" id="header">
+        <div class="container" style="padding-top: 5px;">
+            <a class="navbar-brand logo ms-sm-5 ms-md-5 ms-lg-0" style="margin-left: 260px !important;"
+                href="index.html">Hack Club</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+                <ul class="navbar-nav mb-2 mb-lg-0 main-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Activities.html">Activities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://hackclub.com/arcade/"
+                            target="_blank">Arcade</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Gallary.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Joinus.html">Join Us</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!-- End Header  -->
+    </nav>
+    <!-- End Header -->
+
     <!-- Start Landing -->
     <div class="landing">
         <div class="container">
-            <div class="text">
-                <h1>Partnership with Gharbiya <span>ROBO</span>Club</h1>
-                <p>Every day, thousands of Hack Clubbers gather online and in-person to make things with code. Whether you’re a beginner programmer or have years of experience, there’s a place for you at Hack Club. Read about our <a style="color: red;" href="https://hackclub.com/philosophy">hacker ethic.</a></p>
-            </div>
-            <div class="image">
-                <img src="Images/robotics/logo.png" style="width: 350px;" alt="Landing Image">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+                    <div class="text">
+                        <h1>Partnership with Gharbiya <span>ROBO</span>Club</h1>
+                        <p>Every day, thousands of Hack Clubbers gather online and in-person to make things with code.
+                            Whether you’re a beginner programmer or have years of experience, there’s a place for you at
+                            Hack Club. Read about our <a
+                                style="color: var(--hc-red); font-weight: bold; text-decoration: underline;"
+                                href="https://hackclub.com/philosophy">hacker ethic.</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="image">
+                        <img src="Images/robotics/logo.png" class="img-fluid" style="width: 350px;" alt="Landing Image">
+                    </div>
+                </div>
             </div>
         </div>
         <a href="#stats" class="go-down">
@@ -66,162 +81,174 @@
         </a>
     </div>
     <!-- End Landing -->
-    <!-- Start Stats  -->
+
+    <!-- Start Stats -->
     <div class="stats" id="stats">
-        <h2>This Season Statistics</h2>
+        <h2 class="main-title text-center mb-5">This Season Statistics</h2>
         <div class="container">
-            <div class="box">
-                <i class="far fa-user fa-2x fa-fw"></i>
-                <span class="number">50</span>
-                <span class="text">Scholars</span>
-            </div>
-            <div class="box">
-                <i class="fas fa-code fa-2x fa-fw"></i>
-                <span class="number">5</span>
-                <span class="text">Mentors</span>
-            </div>
-            <div class="box">
-                <i class="fas fa-globe-asia fa-2x fa-fw"></i>
-                <span class="number">Offline</span>
-                <span class="text">In-Person</span>
-            </div>
-            <div class="box">
-                <i class="fas fa-code fa-2x fa-fw"></i>
-                <span class="number">+20</span>
-                <span class="text">Courses Hours</span>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <i class="far fa-user fa-2x fa-fw"></i>
+                        <span class="number">50</span>
+                        <span class="text">Scholars</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <i class="fas fa-code fa-2x fa-fw"></i>
+                        <span class="number">5</span>
+                        <span class="text">Mentors</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <i class="fas fa-globe-asia fa-2x fa-fw"></i>
+                        <span class="number">Offline</span>
+                        <span class="text">In-Person</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <i class="fas fa-code fa-2x fa-fw"></i>
+                        <span class="number">+20</span>
+                        <span class="text">Course Hours</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- End Stats  -->
-     <!-- Start Articles -->
-    <div class="articles" id="articles">
+    <!-- End Stats -->
+
+    <!-- Start Articles (Sessions) -->
+    <div class="articles" id="articles" style="padding: 60px 0;">
         <h2 class="main-title">Sessions</h2>
         <div class="container">
-            <div class="box">
-                <img src="Images/robotics/intro.jpg" alt="">
-                <div class="content">
-                    <h3>Introduction Session about program</h3>
-                    <p>5:00 - 7:00 PM Teusday, 22/10/2024</p>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="box border rounded bg-white overflow-hidden shadow-sm h-100">
+                        <img src="Images/robotics/intro.jpg" class="img-fluid w-100" alt="">
+                        <div class="p-3">
+                            <h3 class="h5">Introduction Session</h3>
+                            <p class="text-muted">5:00 - 7:00 PM Tuesday, 22/10/2024</p>
+                        </div>
+                        <div class="p-3 border-top d-flex justify-content-between align-items-center">
+                            <a href="https://1drv.ms/p/s!AqdWeuNsQiclgQ_mMx1CWP4Q2VeJ" target="_blank"
+                                class="text-decoration-none fw-bold" style="color: var(--hc-red);">Session Content</a>
+                            <i class="fas fa-long-arrow-alt-right" style="color: var(--hc-red);"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="info">
-                    <a href="https://1drv.ms/p/s!AqdWeuNsQiclgQ_mMx1CWP4Q2VeJ" target="_blank">Sessin's Content</a>
-                    <i class="fas fa-long-arrow-alt-right"></i>
-                </div>
-            </div>
-            <div class="box">
-                <img src="Images/robotics/session_1.jpg" alt="">
-                <div class="content">
-                    <h3>Session 1</h3>
-                    <h3>Electric componants</h3>
-                    <p>5:00 - 7:00 PM Monday, 28/10/2024</p>
-                </div>
-                <div class="info">
-                    <a href="./Presentation/Session_1_Robo.pdf" target="_blank">Sessin's Content</a>
-                    <i class="fas fa-long-arrow-alt-right"></i>
+                <div class="col-md-6 col-lg-4">
+                    <div class="box border rounded bg-white overflow-hidden shadow-sm h-100">
+                        <img src="Images/robotics/session_1.jpg" class="img-fluid w-100" alt="">
+                        <div class="p-3">
+                            <h3 class="h5">Session 1: Electric Components</h3>
+                            <p class="text-muted">5:00 - 7:00 PM Monday, 28/10/2024</p>
+                        </div>
+                        <div class="p-3 border-top d-flex justify-content-between align-items-center">
+                            <a href="./Presentation/Session_1_Robo.pdf" target="_blank"
+                                class="text-decoration-none fw-bold" style="color: var(--hc-red);">Session Content</a>
+                            <i class="fas fa-long-arrow-alt-right" style="color: var(--hc-red);"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="spikes"></div>
     <!-- End Articles -->
-    <!-- Start Gallary -->
-    <div class="gallary" id="gallary">
-        <h2 class="main-title alt">Gallary</h2>
+
+    <!-- Reuse Gallery Section -->
+    <div class="gallary" id="gallary" style="padding: 60px 0; background-color: var(--hc-smoke);">
+        <h2 class="main-title alt">Gallery</h2>
         <div class="container">
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/1.jpg" alt="">
+            <div class="row g-3">
+                <!-- Repeating quick gallery grid -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="box p-1 bg-white border rounded">
+                        <div class="image"><img src="Images/robotics/1.jpg" class="img-fluid rounded" alt=""></div>
+                    </div>
                 </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/2.jpg" alt="">
+                <div class="col-md-4 col-sm-6">
+                    <div class="box p-1 bg-white border rounded">
+                        <div class="image"><img src="Images/robotics/2.jpg" class="img-fluid rounded" alt=""></div>
+                    </div>
                 </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/3.jpg" alt="">
-                </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/4.jpg" alt="">
-                </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/5.jpg" alt="">
-                </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/6.jpg" alt="">
-                </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/7.jpg" alt="">
-                </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/8.jpg" alt="">
-                </div>
-            </div>
-            <div class="box">
-                <div class="image">
-                    <img src="Images/robotics/9.jpg" alt="">
+                <div class="col-md-4 col-sm-6">
+                    <div class="box p-1 bg-white border rounded">
+                        <div class="image"><img src="Images/robotics/3.jpg" class="img-fluid rounded" alt=""></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Gallary -->
+
+
     <!-- Start Footer -->
     <div class="footer">
         <div class="container">
-            <div class="box">
-                <h3>Hack Club</h3>
-                <ul class="social">
-                    <li><a href="" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="" class="facebook"><i class="fab fa-instagram"></i></a></li>
-                    <li><a href="" class="facebook"><i class="fab fa-whatsapp"></i></a></li>
-                    <li><a href="" class="facebook"><i class="fab fa-linkedin"></i></a></li>
-                </ul>
-                <p class="text">Here, You can think, imagine, create, code, publish, and share</p>
-            </div>
-            <div class="box">
-                <ul class="links">
-                    <li><a href="https://hackclub.com/">Global Hack Club</a></li>
-                    <li><a href="https://glory-dev.github.io/Gharbia-STEM/">Gharbiya STEM School</a></li>
-                    <li><a href="https://hackclub.com/arcade/">Arcade</a></li>
-                </ul>
-            </div>
-            <div class="box">
-                <div class="line">
-                    <i class="fas fa-map-marker-alt fa-fw"></i>
-                    <div class="info">Egypt, Gharbiya, Tanta, Al-Galaa, Gharbiya STEM School</div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <h3>Hack Club</h3>
+                        <ul class="social list-unstyled d-flex gap-2">
+                            <li><a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" class="instagram"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#" class="whatsapp"><i class="fab fa-whatsapp"></i></a></li>
+                            <li><a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a></li>
+                        </ul>
+                        <p class="text mt-3">Here, You can think, imagine, create, code, publish, and share</p>
+                    </div>
                 </div>
-                <div class="line">
-                    <i class="far fa-clock fa-fw"></i>
-                    <div class="info">Business Hours: From 07:00 to 20:00</div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <ul class="links list-unstyled">
+                            <li><a href="https://hackclub.com/">Global Hack Club</a></li>
+                            <li><a href="https://glory-dev.github.io/Gharbia-STEM/">Gharbiya STEM School</a></li>
+                            <li><a href="https://hackclub.com/arcade/">Arcade</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="line">
-                    <i class="fas fa-phone-volume fa-fw"></i>
-                    <div class="info"><span>+201147480732</span></div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="box">
+                        <div class="line d-flex align-items-center mb-3">
+                            <i class="fas fa-map-marker-alt fa-fw me-2"></i>
+                            <div class="info">Egypt, Gharbiya, Tanta, Al-Galaa, Gharbiya STEM School</div>
+                        </div>
+                        <div class="line d-flex align-items-center mb-3">
+                            <i class="far fa-clock fa-fw me-2"></i>
+                            <div class="info">Hours: 07:00 to 20:00</div>
+                        </div>
+                        <div class="line d-flex align-items-center mb-3">
+                            <i class="fas fa-phone-volume fa-fw me-2"></i>
+                            <div class="info"><span>+201147480732</span></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="box footer-gallery">
-                <img src="Images/gallery-01.png" alt="">
-                <img src="Images/gallery-02.png" alt="">
-                <img src="Images/gallery-03.jpg" alt="">
-                <img src="Images/gallery-04.png" alt="">
-                <img src="Images/gallery-05.jpg" alt="">
-                <img src="Images/gallery-06.png" alt="">
+                <div class="col-md-6 col-lg-3">
+                    <div class="box footer-gallery d-flex flex-wrap gap-1">
+                        <img src="Images/gallery-01.png" alt="" style="width: 70px; height: 70px; object-fit: cover;">
+                        <img src="Images/gallery-02.png" alt="" style="width: 70px; height: 70px; object-fit: cover;">
+                        <img src="Images/gallery-03.jpg" alt="" style="width: 70px; height: 70px; object-fit: cover;">
+                        <img src="Images/gallery-04.png" alt="" style="width: 70px; height: 70px; object-fit: cover;">
+                        <img src="Images/gallery-05.jpg" alt="" style="width: 70px; height: 70px; object-fit: cover;">
+                        <img src="Images/gallery-06.png" alt="" style="width: 70px; height: 70px; object-fit: cover;">
+                    </div>
+                </div>
             </div>
         </div>
-        <p class="copyright">&copy; 2025 Hack Club. All rights reserved | Made with <3 by Ahmed Emad, Developed by Youssef Amir</p>
-        </div>
+        <p class="copyright">&copy; 2025 Hack Club. All rights reserved | Made with <3 by Ahmed Emad, Developed by
+                Youssef Amir</p>
+    </div>
     <!-- End Footer -->
+
+    <!-- Bootstrap & jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
