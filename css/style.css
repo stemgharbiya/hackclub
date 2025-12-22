@@ -2,23 +2,25 @@
 @font-face {
     font-family: 'Phantom Sans';
     src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff') format('woff'),
-         url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2') format('woff2');
+        url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Phantom Sans';
     src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff') format('woff'),
-         url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff2') format('woff2');
+        url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Phantom Sans';
     src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff') format('woff'),
-         url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff2') format('woff2');
+        url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -49,43 +51,80 @@ body {
     display: inline-flex;
     align-items: center;
 }
+
 .logo:hover {
     color: var(--hc-red);
 }
 
 /* Header */
+/* Header */
 .header {
-    background-color: #fff;
-    box-shadow: 0 0 10px #ddd;
+    background-color: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
     transition: var(--main-transition);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
+
+/* Hack Club Flag Sticky/Resize Logic */
+img[src*="flag-orpheus-top"] {
+    position: fixed !important;
+    top: 0;
+    left: 10px;
+    z-index: 1100 !important;
+    /* Above everything */
+    transition: width 0.3s ease-in-out;
+    width: 256px !important;
+    /* Default size */
+}
+
+img[src*="flag-orpheus-top"].scrolled {
+    width: 150px !important;
+    /* Scrolled size */
+}
+
 .navbar-nav .nav-link {
     color: var(--hc-dark);
-    font-size: 18px;
-    margin: 0 10px;
-    position: relative;
-    transition: var(--main-transition);
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+    padding: 8px 16px !important;
+    border-radius: 999px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
+
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
     color: var(--hc-red);
+    background-color: #ffe6e6;
+    /* Very light red */
 }
-/* Underline effect for nav links */
-.navbar-nav .nav-link::before {
-    content: "";
-    position: absolute;
-    width: 0%;
-    height: 2px;
+
+/* Specific style for "Join Us" if it's the last item or specific class */
+/* Assuming Join Us is the last item, or we can target by href in JS/HTML but CSS :last-child is decent approximation for now, 
+   though effectively we want to be safe. Let's make "Join Us" explicitly visually distinct if we can, but 
+   based on the HTML it's just a nav-item. I'll add a general rule for a 'cta' class if added later, 
+   but for now just the pill effect is a massive improvement. 
+   Wait, I can target href="Joinus.html" via attribute selector. */
+.navbar-nav .nav-link[href="Joinus.html"] {
     background-color: var(--hc-red);
-    bottom: 0;
-    left: 0;
-    transition: var(--main-transition);
+    color: white !important;
+    background-image: linear-gradient(to bottom right, #ec3750, #d64d60);
+    box-shadow: 0 2px 4px rgba(236, 55, 80, 0.2);
 }
-.navbar-nav .nav-link:hover::before {
-    width: 100%;
+
+.navbar-nav .nav-link[href="Joinus.html"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(236, 55, 80, 0.3);
+}
+
+/* Remove old underline effect */
+.navbar-nav .nav-link::before {
+    display: none;
 }
 
 /* Landing Section */
@@ -96,21 +135,25 @@ body {
     align-items: center;
     position: relative;
 }
+
 .landing .text h1 {
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 20px;
     letter-spacing: -2px;
 }
+
 .landing .text h1 span {
     color: var(--hc-red);
 }
+
 .landing .text p {
     font-size: 1.2rem;
     line-height: 1.6;
     color: #666;
     max-width: 500px;
 }
+
 .landing .image img {
     border-radius: 12px;
     box-shadow: 10px 10px 0 var(--hc-red);
@@ -119,9 +162,17 @@ body {
     max-width: 100%;
     height: auto;
 }
+
 @keyframes up-down {
-    0%, 100% { top: 0; }
-    50% { top: -20px; }
+
+    0%,
+    100% {
+        top: 0;
+    }
+
+    50% {
+        top: -20px;
+    }
 }
 
 .go-down {
@@ -133,9 +184,22 @@ body {
     transition: var(--main-transition);
     animation: bouncing 1.5s infinite;
 }
+
 @keyframes bouncing {
-    0%, 10%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40%, 60% { transform: translateY(-15px); }
+
+    0%,
+    10%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40%,
+    60% {
+        transform: translateY(-15px);
+    }
 }
 
 /* Titles */
@@ -150,6 +214,7 @@ body {
     z-index: 1;
     transition: var(--main-transition);
 }
+
 .main-title::before,
 .main-title::after {
     content: "";
@@ -161,28 +226,59 @@ body {
     top: 50%;
     transform: translateY(-50%);
 }
-.main-title::before { left: -30px; }
-.main-title::after { right: -30px; }
+
+.main-title::before {
+    left: -30px;
+}
+
+.main-title::after {
+    right: -30px;
+}
+
 .main-title:hover {
     color: white;
     border: 2px solid white;
     transition-delay: 0.5s;
 }
+
 .main-title:hover::before {
     z-index: -1;
     animation: left-move 0.5s linear forwards;
 }
+
 .main-title:hover::after {
     z-index: -1;
     animation: right-move 0.5s linear forwards;
 }
+
 @keyframes left-move {
-    50% { left: 0; width: 12px; height: 12px; }
-    100% { left: 0; border-radius: 0; width: 50%; height: 100%; }
+    50% {
+        left: 0;
+        width: 12px;
+        height: 12px;
+    }
+
+    100% {
+        left: 0;
+        border-radius: 0;
+        width: 50%;
+        height: 100%;
+    }
 }
+
 @keyframes right-move {
-    50% { right: 0; width: 12px; height: 12px; }
-    100% { right: 0; border-radius: 0; width: 50%; height: 100%; }
+    50% {
+        right: 0;
+        width: 12px;
+        height: 12px;
+    }
+
+    100% {
+        right: 0;
+        border-radius: 0;
+        width: 50%;
+        height: 100%;
+    }
 }
 
 /* Stats */
@@ -192,12 +288,17 @@ body {
     position: relative;
     padding: 60px 0;
 }
+
 .stats::before {
     content: "";
     position: absolute;
-    top:0; left:0; width:100%; height:100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(255, 255, 255, 0.95);
 }
+
 .stats .box {
     text-align: center;
     position: relative;
@@ -206,13 +307,17 @@ body {
     border-radius: 6px;
     transition: var(--main-transition);
 }
+
 .stats .box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
 .stats .box i {
-    color: var(--hc-red); /* Stats icons red */
+    color: var(--hc-red);
+    /* Stats icons red */
 }
+
 .stats .number {
     display: block;
     font-size: 50px;
@@ -221,6 +326,7 @@ body {
     margin-bottom: 10px;
     color: var(--hc-dark);
 }
+
 .stats .text {
     color: var(--hc-red);
     font-style: italic;
@@ -233,6 +339,7 @@ body {
     padding: 60px 0;
     background-color: var(--hc-smoke);
 }
+
 .services .box {
     background-color: white;
     box-shadow: 0 12px 20px 0 rgb(0 0 0 / 13%), 0 2px 4px 0 rgb(0 0 0 / 12%);
@@ -242,6 +349,7 @@ body {
     border-radius: 6px;
     overflow: hidden;
 }
+
 .services .box::before {
     content: "";
     left: 50%;
@@ -253,34 +361,41 @@ body {
     width: 0;
     transition: var(--main-transition);
 }
+
 .services .box:hover {
     transform: translateY(-10px);
 }
+
 .services .box:hover::before {
     width: 100%;
 }
-.services .box > i {
+
+.services .box>i {
     margin: 30px auto 20px;
     display: block;
     text-align: center;
     color: #d5d5d5;
 }
-.services .box > h3 {
+
+.services .box>h3 {
     text-align: center;
     margin: 20px 0 40px;
     font-size: 25px;
     color: var(--hc-red);
 }
+
 .services .box .info {
     padding: 15px;
     position: relative;
     background-color: #f9f9f9;
     text-align: right;
 }
+
 .services .box .info a {
     color: var(--hc-red);
     text-decoration: none;
 }
+
 .services .box .info::before {
     content: "0" counter(services);
     position: absolute;
@@ -303,6 +418,7 @@ body {
 .features {
     padding: 60px 0;
 }
+
 .features .box {
     text-align: center;
     border: 1px solid #ccc;
@@ -310,17 +426,21 @@ body {
     overflow: hidden;
     transition: var(--main-transition);
 }
+
 .features .box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
 .features .img-holder {
     position: relative;
     overflow: hidden;
 }
+
 .features .img-holder img {
     max-width: 100%;
 }
+
 .features .box h2 {
     position: relative;
     font-size: 40px;
@@ -328,15 +448,18 @@ body {
     width: fit-content;
     padding-bottom: 10px;
 }
+
 .features .box h2::after {
     content: "";
     position: absolute;
-    bottom: -10px; /* Adjust as needed */
+    bottom: -10px;
+    /* Adjust as needed */
     left: 15px;
     height: 5px;
     width: calc(100% - 30px);
     background-color: var(--hc-red);
 }
+
 .features .box a {
     display: block;
     border: 3px solid var(--hc-red);
@@ -349,6 +472,7 @@ body {
     transition: var(--main-transition);
     text-decoration: none;
 }
+
 .features .box:hover a {
     background-color: var(--hc-red);
     color: white;
@@ -359,6 +483,7 @@ body {
     padding: 60px 0;
     background-color: var(--hc-smoke);
 }
+
 .team .box {
     position: relative;
     border-radius: 10px;
@@ -366,23 +491,28 @@ body {
     padding: 20px;
     transition: var(--main-transition);
 }
+
 .team .box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
 .team .data {
     display: flex;
     align-items: center;
     padding-top: 60px;
 }
+
 .team .data img {
     width: calc(100% - 60px);
     transition: var(--main-transition);
     border-radius: 10px;
 }
+
 .team .box:hover img {
     filter: grayscale(100%);
 }
+
 .team .data .social {
     width: 60px;
     display: flex;
@@ -390,6 +520,7 @@ body {
     align-items: center;
     gap: 20px;
 }
+
 .team .data .social a {
     width: 60px;
     height: 30px;
@@ -398,23 +529,28 @@ body {
     align-items: center;
     text-decoration: none;
 }
+
 .team .data .social i {
     color: #777;
     transition: var(--main-transition);
 }
+
 .team .data .social a:hover i {
     color: var(--hc-red);
 }
+
 .team .info {
     padding-left: 80px;
     margin-top: 10px;
 }
+
 .team .info h3 {
     margin-bottom: 0;
     color: var(--hc-red);
     font-size: 22px;
     transition: var(--main-transition);
 }
+
 .team .box:hover .info h3 {
     color: #777;
 }
@@ -425,6 +561,7 @@ body {
     padding: 70px 0 0;
     color: #b9b9b9;
 }
+
 .footer .box h3 {
     color: white;
     font-size: 50px;
@@ -432,13 +569,24 @@ body {
     font-family: 'Phantom Sans', sans-serif;
     font-weight: 800;
 }
+
 .footer .social {
     display: flex;
     gap: 10px;
 }
-.footer .social li .facebook:hover { background-color: #1877f2; }
-.footer .social li .twitter:hover { background-color: #1da1f2; }
-.footer .social li .youtube:hover { background-color: #ff0000; }
+
+.footer .social li .facebook:hover {
+    background-color: #1877f2;
+}
+
+.footer .social li .twitter:hover {
+    background-color: #1da1f2;
+}
+
+.footer .social li .youtube:hover {
+    background-color: #ff0000;
+}
+
 .footer .social a {
     background-color: #313131;
     color: #b9b9b9;
@@ -451,30 +599,44 @@ body {
     transition: var(--main-transition);
     text-decoration: none;
 }
+
 .footer .links li {
     padding: 15px 0;
     transition: var(--main-transition);
     border-bottom: 1px solid #444;
 }
-.footer .links li:last-child { border-bottom: none; }
-.footer .links li:hover { padding-left: 10px; }
+
+.footer .links li:last-child {
+    border-bottom: none;
+}
+
+.footer .links li:hover {
+    padding-left: 10px;
+}
+
 .footer .links li a {
     color: #b9b9b9;
     transition: var(--main-transition);
     text-decoration: none;
 }
-.footer .links li:hover a { color: white; }
+
+.footer .links li:hover a {
+    color: white;
+}
+
 .footer .line {
     display: flex;
     align-items: center;
     color: #b9b9b9;
     margin-bottom: 30px;
 }
+
 .footer .line i {
     font-size: 25px;
     color: var(--hc-red);
     margin-right: 10px;
 }
+
 .footer .copyright {
     padding: 25px 0;
     text-align: center;
