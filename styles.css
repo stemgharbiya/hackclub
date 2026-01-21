@@ -1,0 +1,470 @@
+/* Hack Club Brand Colors */
+:root {
+    --hc-red: #ec3750;
+    --hc-orange: #ff8c37;
+    --hc-yellow: #f1c40f;
+    --hc-green: #33d6a6;
+    --hc-cyan: #5bc0de;
+    --hc-blue: #338eda;
+    --hc-purple: #a633d6;
+    --hc-muted: #8492a6;
+    --hc-dark: #1f2d3d;
+    --hc-light: #f9fafc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--hc-dark);
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--hc-blue) 0%, var(--hc-purple) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: float 20s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-30px, -30px) rotate(5deg); }
+    50% { transform: translate(-20px, 20px) rotate(-5deg); }
+    75% { transform: translate(30px, -10px) rotate(3deg); }
+}
+
+.hero-logo {
+    max-width: 300px;
+    animation: fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-section h1 {
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.hero-section p {
+    animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.hero-section .d-flex {
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--hc-red);
+    border-color: var(--hc-red);
+    padding: 12px 32px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #d62949;
+    border-color: #d62949;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(236, 55, 80, 0.3);
+}
+
+.btn-outline-primary {
+    color: white;
+    border-color: white;
+    padding: 12px 32px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: white;
+    color: var(--hc-blue);
+    transform: translateY(-2px);
+}
+
+/* About Section */
+.about-section {
+    background-color: var(--hc-light);
+}
+
+.feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    height: 100%;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-color: var(--hc-blue);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    color: var(--hc-dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.feature-card p {
+    color: var(--hc-muted);
+    line-height: 1.6;
+}
+
+/* Bootcamps Section */
+.bootcamps-section {
+    background: white;
+}
+
+.bootcamp-card {
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    height: 100%;
+    border: 3px solid #e9ecef;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.bootcamp-card[data-bootcamp="competitive-programming"]:hover {
+    border-color: var(--hc-blue);
+    box-shadow: 0 10px 40px rgba(51, 142, 218, 0.2);
+    transform: translateY(-5px);
+}
+
+.bootcamp-card[data-bootcamp="cyber-security"]:hover {
+    border-color: var(--hc-red);
+    box-shadow: 0 10px 40px rgba(236, 55, 80, 0.2);
+    transform: translateY(-5px);
+}
+
+.bootcamp-card[data-bootcamp="web-development"]:hover {
+    border-color: var(--hc-green);
+    box-shadow: 0 10px 40px rgba(51, 214, 166, 0.2);
+    transform: translateY(-5px);
+}
+
+.bootcamp-card[data-bootcamp="data-science"]:hover {
+    border-color: var(--hc-purple);
+    box-shadow: 0 10px 40px rgba(166, 51, 214, 0.2);
+    transform: translateY(-5px);
+}
+
+.bootcamp-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.bootcamp-card h3 {
+    color: var(--hc-dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.bootcamp-card p {
+    color: var(--hc-muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.bootcamp-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.bootcamp-features li {
+    padding: 8px 0;
+    color: var(--hc-dark);
+    position: relative;
+    padding-left: 25px;
+}
+
+.bootcamp-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--hc-green);
+    font-weight: bold;
+}
+
+/* Timeline Section */
+.timeline-section {
+    background-color: var(--hc-light);
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--hc-blue) 0%, var(--hc-purple) 100%);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: 40px;
+}
+
+.timeline-number {
+    position: absolute;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--hc-blue) 0%, var(--hc-purple) 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(51, 142, 218, 0.3);
+}
+
+.timeline-content h4 {
+    color: var(--hc-dark);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.timeline-content p {
+    color: var(--hc-muted);
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, var(--hc-red) 0%, var(--hc-orange) 100%);
+    color: white;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--hc-dark);
+    color: white;
+}
+
+.footer a {
+    color: var(--hc-cyan);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--hc-blue);
+}
+
+/* Form Styles */
+.form-page {
+    background-color: var(--hc-light);
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 80px;
+}
+
+.form-container {
+    background: white;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-header img {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+.form-header h1 {
+    color: var(--hc-dark);
+    margin-bottom: 10px;
+}
+
+.form-header .bootcamp-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.badge-cp {
+    background-color: rgba(51, 142, 218, 0.1);
+    color: var(--hc-blue);
+}
+
+.badge-cs {
+    background-color: rgba(236, 55, 80, 0.1);
+    color: var(--hc-red);
+}
+
+.badge-wd {
+    background-color: rgba(51, 214, 166, 0.1);
+    color: var(--hc-green);
+}
+
+.badge-ds {
+    background-color: rgba(166, 51, 214, 0.1);
+    color: var(--hc-purple);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--hc-dark);
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e9ecef;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--hc-blue);
+    box-shadow: 0 0 0 0.2rem rgba(51, 142, 218, 0.1);
+}
+
+.form-text {
+    color: var(--hc-muted);
+    font-size: 0.9rem;
+}
+
+.question-section {
+    background-color: var(--hc-light);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.question-section h5 {
+    color: var(--hc-dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.btn-submit {
+    padding: 15px 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-logo {
+        max-width: 200px;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .timeline::before {
+        left: 20px;
+    }
+    
+    .timeline-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .timeline-item {
+        padding-left: 70px;
+    }
+    
+    .form-container {
+        padding: 30px 20px;
+    }
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success Message */
+.alert-success {
+    background-color: rgba(51, 214, 166, 0.1);
+    border-color: var(--hc-green);
+    color: var(--hc-green);
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
