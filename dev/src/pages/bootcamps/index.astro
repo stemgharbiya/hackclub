@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BootcampCards from '../../components/BootcampCards.astro';
+
+const bootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Bootcamps | Gharbiya STEM Hack Club"
+  description="Explore the four major bootcamps running from February to June."
+  currentPath="/bootcamps"
+>
+  <section class="mb-8">
+    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Major Bootcamps</h2>
+    <p class="mt-2 text-slate-600 dark:text-slate-300">
+      Four focused training tracks designed to build practical skills from February to June.
+    </p>
+  </section>
+  <BootcampCards bootcamps={bootcamps} />
+</BaseLayout>
+

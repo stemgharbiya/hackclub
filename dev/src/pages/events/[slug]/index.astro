@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((event) => ({
+    params: { slug: event.id.replace(/\.md$/, '') },
+    props: { event }
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+---
+
+<BaseLayout
+  title={`${event.data.title} | Events | Gharbiya STEM Hack Club`}
+  description={event.data.outcome}
+  currentPath="/events"
+>
+  <article class="surface prose prose-slate max-w-none dark:prose-invert">
+    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+      {event.data.date.toLocaleDateString('en-GB')} · {event.data.location} · Season {event.data.season}
+    </p>
+    <h1>{event.data.title}</h1>
+    <p><strong>Outcome:</strong> {event.data.outcome}</p>
+    <Content />
+    {
+      event.data.registrationUrl && (
+        <p>
+          <a href={event.data.registrationUrl} target="_blank" rel="noreferrer">Follow updates on Instagram</a>
+        </p>
+      )
+    }
+    <p>
+      <a href="/events">← Back to events</a>
+    </p>
+  </article>
+</BaseLayout>

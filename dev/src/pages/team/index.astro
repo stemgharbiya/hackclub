@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TeamGrid from '../../components/TeamGrid.astro';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Team | Gharbiya STEM Hack Club"
+  description="Meet the leadership and committee members of Gharbiya STEM Hack Club."
+  currentPath="/team"
+>
+  <section class="mb-8">
+    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Our Team</h1>
+    <p class="mt-2 text-slate-600 dark:text-slate-300">
+      Leadership and committee members working together to deliver an exceptional season.
+    </p>
+  </section>
+  <TeamGrid team={team} />
+</BaseLayout>
+

@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventCards from '../../components/EventCards.astro';
+
+const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout
+  title="Events | Gharbiya STEM Hack Club"
+  description="Track season events and outcomes by Gharbiya STEM Hack Club."
+  currentPath="/events"
+>
+  <section class="mb-8">
+    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Events</h1>
+    <p class="mt-2 text-slate-600 dark:text-slate-300">
+      Our current season has already produced two wide-success events with strong participation and outcomes.
+    </p>
+  </section>
+  <EventCards events={events} />
+</BaseLayout>
+
