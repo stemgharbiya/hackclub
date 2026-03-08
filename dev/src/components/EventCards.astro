@@ -17,12 +17,12 @@ const { events } = Astro.props as Props;
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{body}</p>
         <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">Outcome: {data.outcome}</p>
         <div class="mt-4 flex items-center gap-4">
-          <a class="inline-flex text-sm font-semibold text-[#ec3750] hover:text-[#d63447] dark:text-[#ff8c37] dark:hover:text-[#ff8c37]/80" href={`/events/${id.replace(/\.md$/, '')}/`}>
+          <a class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)" href={`/events/${id.replace(/\.md$/, '')}/`}>
             Read details
           </a>
           {
             data.registrationUrl && (
-              <a class="inline-flex text-sm font-semibold text-[#ec3750] hover:text-[#d63447] dark:text-[#ff8c37] dark:hover:text-[#ff8c37]/80" href={data.registrationUrl} target="_blank" rel="noreferrer">
+              <a class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)" href={data.registrationUrl} target="_blank" rel="noreferrer">
                 Follow updates
               </a>
             )

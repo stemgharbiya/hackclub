@@ -47,7 +47,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Bootcamps (Feb–Jun)</h2>
-      <a href="/bootcamps" class="text-sm font-semibold text-[#ec3750] dark:text-[#ff8c37]">View all</a>
+      <a href="/bootcamps" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">View all</a>
     </div>
     <BootcampCards bootcamps={bootcamps} />
   </section>
@@ -55,7 +55,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Recent Events</h2>
-      <a href="/events" class="text-sm font-semibold text-[#ec3750] dark:text-[#ff8c37]">View all</a>
+      <a href="/events" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">View all</a>
     </div>
     <EventCards events={events.slice(0, 2)} />
   </section>
@@ -63,7 +63,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Team</h2>
-      <a href="/team" class="text-sm font-semibold text-[#ec3750] dark:text-[#ff8c37]">Meet everyone</a>
+      <a href="/team" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">Meet everyone</a>
     </div>
     <TeamGrid team={featuredTeam} />
   </section>

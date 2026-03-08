@@ -3,6 +3,44 @@
 @tailwind utilities;
 
 :root {
+  /* Hack Club Official Brand Colors */
+  --color-red:     #ec3750;
+  --color-orange:  #ff8c37;
+  --color-yellow:  #f1c40f;
+  --color-green:   #33d6a6;
+  --color-cyan:    #5bc0de;
+  --color-blue:    #338eda;
+  --color-purple:  #a633d6;
+  --color-muted:   #8492a6;
+
+  /* Site Layout Colors */
+  --bg-primary:    #0a0a0a;
+  --bg-secondary:  #111111;
+  --bg-surface:    #1a1a1a;
+  --border-color:  #2a2a2a;
+
+  /* Text */
+  --text-primary:  #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted:    #555555;
+
+  /* Accent */
+  --accent:        #ec3750;
+  --accent-hover:  #d42d43;
+
+  /* Typography Scale */
+  --text-xs:  0.75rem;
+  --text-sm:  0.875rem;
+  --text-base: 1rem;
+  --text-lg:  1.125rem;
+  --text-xl:  1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 4rem;
+  --text-hero: clamp(3rem, 8vw, 6rem);
+
   color-scheme: light;
 }
 
@@ -12,20 +50,21 @@
 
 body {
   @apply bg-white text-slate-900 antialiased transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100;
+  font-family: 'Phantom Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 a {
   @apply transition-colors duration-200;
-  color: #ec3750;
+  color: var(--accent);
 }
 
 a:hover {
   @apply text-opacity-80;
-  color: #d63447;
+  color: var(--accent-hover);
 }
 
 a.dark {
-  @apply dark:text-[#ff8c37];
+  color: var(--color-orange);
 }
 
 .container-shell {
@@ -37,9 +76,47 @@ a.dark {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-xl bg-[#ec3750] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#d63447] transition-colors;
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-colors;
+  background: var(--accent);
+  font-family: 'Phantom Sans', sans-serif;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 transition-colors;
+  @apply inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition-colors;
+  background: white;
+  color: #1e293b;
+  border-color: #e2e8f0;
+  font-family: 'Phantom Sans', sans-serif;
+}
+
+.btn-secondary:hover {
+  @apply bg-slate-100;
+}
+
+.dark .btn-secondary {
+  background: #0f172a;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+.dark .btn-secondary:hover {
+  @apply bg-slate-800;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-semibold transition-colors;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-family: 'Phantom Sans', sans-serif;
+}
+
+.btn-ghost:hover {
+  border-color: var(--text-primary);
 }

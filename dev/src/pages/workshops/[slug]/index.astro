@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Icon } from 'astro-icon/components';
+import Icon from '../../../components/Icon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
@@ -32,10 +32,10 @@ const { Content } = await render(workshop);
         <div class="not-prose rounded-lg bg-slate-100 p-4 dark:bg-slate-800">
           <p class="font-semibold text-slate-900 dark:text-white">Key metrics:</p>
           <ul class="mt-2 space-y-1 text-sm text-slate-700 dark:text-slate-300">
-            {workshop.data.approvedSubmissions && <li class="flex items-center gap-1.5"><Icon name="mdi:check-circle" class="w-4 h-4 flex-shrink-0" /> {workshop.data.approvedSubmissions} approved submissions</li>}
-            {workshop.data.participations && <li class="flex items-center gap-1.5"><Icon name="mdi:check-circle" class="w-4 h-4 flex-shrink-0" /> {workshop.data.participations}+ participations</li>}
-            {workshop.data.budgetSpent && <li class="flex items-center gap-1.5"><Icon name="mdi:wallet-outline" class="w-4 h-4 flex-shrink-0" /> Budget: {workshop.data.budgetSpent}</li>}
-            {workshop.data.rewardsMarketing && <li class="flex items-center gap-1.5"><Icon name="mdi:gift" class="w-4 h-4 flex-shrink-0" /> Rewards & marketing: {workshop.data.rewardsMarketing}</li>}
+            {workshop.data.approvedSubmissions && <li class="flex items-center gap-1.5"><Icon name="check-circle" class="w-4 h-4 flex-shrink-0" /> {workshop.data.approvedSubmissions} approved submissions</li>}
+            {workshop.data.participations && <li class="flex items-center gap-1.5"><Icon name="check-circle" class="w-4 h-4 flex-shrink-0" /> {workshop.data.participations}+ participations</li>}
+            {workshop.data.budgetSpent && <li class="flex items-center gap-1.5"><Icon name="wallet" class="w-4 h-4 flex-shrink-0" /> Budget: {workshop.data.budgetSpent}</li>}
+            {workshop.data.rewardsMarketing && <li class="flex items-center gap-1.5"><Icon name="gift" class="w-4 h-4 flex-shrink-0" /> Rewards & marketing: {workshop.data.rewardsMarketing}</li>}
             {workshop.data.note && <li>{workshop.data.note}</li>}
           </ul>
         </div>

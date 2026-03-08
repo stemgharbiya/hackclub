@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import TeamGrid from '../../components/TeamGrid.astro';
 
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const leaders = team.filter(member => member.data.role.toLowerCase().includes('leader') || member.data.role.toLowerCase().includes('president'));
 ---
 
 <BaseLayout
@@ -11,12 +12,100 @@ const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.
   description="Meet the leadership and committee members of Gharbiya STEM Hack Club."
   currentPath="/team"
 >
-  <section class="mb-8">
-    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Our Team</h1>
-    <p class="mt-2 text-slate-600 dark:text-slate-300">
-      Leadership and committee members working together to deliver an exceptional season.
+  <!-- Hero Section -->
+  <section class="surface mb-12">
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-cyan)">// THE PEOPLE BEHIND THE MAGIC</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Meet the team.</h1>
+    <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+      Our Hack Club is run by passionate students who believe in learning by doing. 
+      From organizing bootcamps to leading workshops, every team member plays a vital role in making our community thrive.
     </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn-primary" href="#all-members">Meet everyone</a>
+      <a class="btn-secondary" href="/contact">Get in touch</a>
+    </div>
   </section>
-  <TeamGrid team={team} />
+
+  <!-- Team Introduction -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Who We Are</h2>
+    <div class="surface">
+      <p class="text-lg text-slate-600 dark:text-slate-300">
+        We're a diverse group of students united by our love for technology and making. 
+        Each member brings unique skills — from coding and design to event planning and community management — 
+        creating a well-rounded team that can tackle any challenge.
+      </p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">{team.length}</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Active Members</p>
+        </div>
+        <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">4</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Bootcamp Tracks</p>
+        </div>
+        <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">100%</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Student-Led</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full Team Grid -->
+  <section class="mb-12" id="all-members">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">All Team Members</h2>
+    <TeamGrid team={team} />
+  </section>
+
+  <!-- Join the Team CTA -->
+  <section class="mb-12">
+    <div class="surface" style="background: linear-gradient(135deg, rgba(93, 192, 222, 0.1), rgba(166, 51, 214, 0.1));">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Want to join the team?</h2>
+      <p class="mt-3 text-slate-600 dark:text-slate-300">
+        We're always looking for passionate students who want to contribute to the club's growth. 
+        Whether you're interested in organizing events, mentoring peers, or leading a bootcamp track, 
+        there's a place for you on our team.
+      </p>
+      <div class="mt-6">
+        <a class="btn-secondary" href="/contact">Express your interest</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Members Say (Testimonials) -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">What Our Members Say</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="surface">
+        <p class="text-sm italic text-slate-600 dark:text-slate-300">
+          "Being part of the Hack Club team has been one of the most rewarding experiences. 
+          Leading bootcamps and seeing members grow their skills is incredibly fulfilling."
+        </p>
+        <p class="mt-4 text-sm font-semibold text-slate-900 dark:text-white">— Team Member</p>
+      </div>
+      <div class="surface">
+        <p class="text-sm italic text-slate-600 dark:text-slate-300">
+          "This club gave me the confidence to ship real projects. The collaborative environment 
+          and peer support made learning fun and effective."
+        </p>
+        <p class="mt-4 text-sm font-semibold text-slate-900 dark:text-white">— Bootcamp Participant</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get in Touch -->
+  <section>
+    <div class="surface text-center">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Have questions about the team?</h2>
+      <p class="mt-3 text-slate-600 dark:text-slate-300">
+        Want to learn more about our roles, responsibilities, or how we organize? 
+        Feel free to reach out — we're always happy to chat!
+      </p>
+      <div class="mt-6">
+        <a class="btn-primary" href="/contact">Contact us</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 

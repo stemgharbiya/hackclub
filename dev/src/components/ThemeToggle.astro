@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components';
+import Icon from './Icon.astro';
 ---
 
 <button
@@ -8,15 +8,16 @@ import { Icon } from 'astro-icon/components';
   data-theme-toggle
   aria-label="Toggle dark mode"
 >
-  <Icon id="sun-icon" name="mdi:white-balance-sunny" class="w-5 h-5" />
-  <Icon id="moon-icon" name="mdi:moon-waning-crescent" class="w-5 h-5 hidden" />
+  <Icon name="sun" class="w-5 h-5" />
+  <Icon name="moon" class="w-5 h-5 hidden" />
 </button>
 
 <script is:inline>
   const button = document.querySelector('[data-theme-toggle]');
   if (button) {
-    const sunIcon = document.getElementById('sun-icon');
-    const moonIcon = document.getElementById('moon-icon');
+    const icons = button.querySelectorAll('svg');
+    const sunIcon = icons[0];
+    const moonIcon = icons[1];
     
     const updateIcons = () => {
       const isDark = document.documentElement.classList.contains('dark');
