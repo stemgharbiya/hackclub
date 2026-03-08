@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -12,8 +13,8 @@ const { team } = Astro.props as Props;
   {
     team.map(({ data, body }) => (
       <article class="surface p-4">
-        <img
-          src={data.photo.src}
+        <Image
+          src={data.photo}
           alt={data.name}
           class="mb-4 h-56 w-full rounded-xl object-cover"
           loading="lazy"
