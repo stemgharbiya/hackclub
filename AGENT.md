@@ -79,52 +79,110 @@ Every page must feel polished, tech-savvy, and energizing — this is not a blog
 **Primary font:** Phantom Sans (Hack Club brand font)  
 **Fallback stack:** `'Phantom Sans', 'Helvetica Neue', Arial, sans-serif`
 
-**Font loading — add to `src/layouts/BaseLayout.astro` `<head>`:**
+**Step 1 — Declare `@font-face` in `src/styles/fonts.css` using Hack Club's CDN:**
 
-```html
-<style>
-  @font-face {
-    font-family: 'Phantom Sans';
-    src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff') format('woff'),
-         url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Phantom Sans';
-    src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff') format('woff'),
-         url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff2') format('woff2');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Phantom Sans';
-    src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff') format('woff'),
-         url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-  }
-</style>
+```css
+/* src/styles/fonts.css */
+@font-face {
+  font-family: 'Phantom Sans';
+  src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff') format('woff'),
+       url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Phantom Sans';
+  src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff') format('woff'),
+       url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Phantom Sans';
+  src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff') format('woff'),
+       url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 ```
 
-**Type scale:**
+---
 
-| Token       | Size     | Usage                                  |
-|-------------|----------|----------------------------------------|
-| `--text-xs`  | 0.75rem  | Labels, badges, captions               |
-| `--text-sm`  | 0.875rem | Secondary body, metadata               |
-| `--text-base`| 1rem     | Primary body text                      |
-| `--text-lg`  | 1.125rem | Subheadings, lead paragraphs           |
-| `--text-xl`  | 1.25rem  | Card headings                          |
-| `--text-2xl` | 1.5rem   | Section headings (mobile)              |
-| `--text-3xl` | 1.875rem | Section headings (desktop)             |
-| `--text-4xl` | 2.25rem  | Page headings                          |
-| `--text-5xl` | 3rem     | Hero headlines (medium)                |
-| `--text-6xl` | 4rem     | Hero headlines (large screens)         |
-| `--text-hero`| clamp(3rem, 8vw, 6rem) | Full-width hero display text |
+**Step 2 — Import in `src/styles/global.css` and set as base font:**
+
+```css
+/* src/styles/global.css */
+@import './fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Phantom Sans', 'Helvetica Neue', Arial, sans-serif;
+  }
+}
+```
+
+---
+
+**Step 3 — Register in `tailwind.config.mjs` so `font-sans` and `prose` inherit it:**
+
+```js
+// tailwind.config.mjs
+import defaultTheme from 'tailwindcss/defaultTheme'
+import typography from '@tailwindcss/typography'
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        // Overrides Tailwind's default sans → font-sans class now uses Phantom Sans
+        sans: ['Phantom Sans', ...defaultTheme.fontFamily.sans],
+      },
+      // Extend typography plugin so prose blocks use Phantom Sans too
+      typography: ({ theme }) => ({
+        DEFAULT: {
+          css: {
+            fontFamily: theme('fontFamily.sans').join(', '),
+          },
+        },
+      }),
+    },
+  },
+  plugins: [typography],
+}
+```
+
+---
+
+**Result:** After this setup —
+- `font-sans` Tailwind class → Phantom Sans
+- `prose` / `prose-invert` (from `@tailwindcss/typography`) → Phantom Sans
+- All body text → Phantom Sans via the `@layer base` rule
+
+**Type scale — use Tailwind's built-in `text-*` classes:**
+
+| Tailwind Class | Size     | Usage                                  |
+|----------------|----------|----------------------------------------|
+| `text-xs`      | 0.75rem  | Labels, badges, captions               |
+| `text-sm`      | 0.875rem | Secondary body, metadata               |
+| `text-base`    | 1rem     | Primary body text                      |
+| `text-lg`      | 1.125rem | Subheadings, lead paragraphs           |
+| `text-xl`      | 1.25rem  | Card headings                          |
+| `text-2xl`     | 1.5rem   | Section headings (mobile)              |
+| `text-3xl`     | 1.875rem | Section headings (desktop)             |
+| `text-4xl`     | 2.25rem  | Page headings                          |
+| `text-5xl`     | 3rem     | Hero headlines (medium)                |
+| `text-6xl`     | 4rem     | Hero headlines (large screens)         |
+| `text-[clamp(3rem,8vw,6rem)]` | fluid | Full-width hero display text — use Tailwind's arbitrary value syntax |
+
+For Markdown/MDX content blocks (blog posts, workshop descriptions), wrap in `prose prose-invert` — this will automatically apply Phantom Sans and sensible typographic styles via `@tailwindcss/typography`.
 
 ---
 

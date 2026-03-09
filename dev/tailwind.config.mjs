@@ -1,3 +1,4 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
 import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
@@ -6,6 +7,9 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Phantom Sans', ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         hc: {
           red: '#ec3750',
@@ -17,7 +21,14 @@ export default {
           purple: '#a633d6',
           muted: '#8492a6'
         }
-      }
+      },
+      typography: ({ theme }) => ({
+        DEFAULT: {
+          css: {
+            fontFamily: theme('fontFamily.sans').join(', '),
+          },
+        },
+      }),
     }
   },
   plugins: [typography]

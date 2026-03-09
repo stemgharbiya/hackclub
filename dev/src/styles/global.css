@@ -1,6 +1,13 @@
+@import './fonts.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Phantom Sans', 'Helvetica Neue', Arial, sans-serif;
+  }
+}
 
 :root {
   /* Hack Club Official Brand Colors */
