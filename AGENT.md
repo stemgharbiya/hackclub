@@ -13,7 +13,7 @@ It is a public-facing site intended to recruit members, showcase events/workshop
 Every page must feel polished, tech-savvy, and energizing — this is not a blog or documentation site.
 
 **Framework:** Astro (static-first, islands architecture)  
-**Styling:** CSS custom properties + scoped component styles (no Tailwind unless already configured)  
+**Styling:** `@hackclub/theme` CSS (`css.hackclub.com/theme.css`) as the base design system + Tailwind utilities for layout  
 **Icons:** `@hackclub/icons` (npm package) — always prefer these over any other icon library  
 **Font:** Phantom Sans (Hack Club brand font — see font imports below)  
 **Deployment target:** Vercel or Netlify (static output)
@@ -26,60 +26,92 @@ Every page must feel polished, tech-savvy, and energizing — this is not a blog
 
 1. **Never write "hackclub", "Hackclub", "HackClub", or "hackClub"** — always `Hack Club` (two words, both capitalized).
 2. **The Orpheus dinosaur logo must appear on every page** — use the flag SVG in the nav.
-3. **All colors must use CSS variables** from the palette below — no hardcoded hex values in components.
-4. **Phantom Sans is the primary typeface** — load it via the `@font-face` declarations in the global layout.
-5. **Dark background is the default theme** — the reference site (Framer.com) uses a deep black (`#0a0a0a`) base. Match this energy.
-6. **Every page needs its own hero section** — no page should begin without a full-width hero.
-7. **Every page must have multiple content sections** — minimum 3 sections below the hero.
+3. **All colors must use `@hackclub/theme` CSS variables** — no hardcoded hex values, no custom color variables.
+4. **All UI components must use `@hackclub/theme` classes first** — cards use `.card`, buttons use `<button>` with `.cta`/`.outline`/`.lg`, badges use `.pill`/`.outline-badge`, layout uses `.container`.
+5. **Phantom Sans is the primary typeface** — loaded from Hack Club's CDN via `@font-face` in `src/styles/fonts.css`.
+6. **Dark background is the default theme** — override theme defaults to `var(--darker)` as the page background.
+7. **Every page needs its own hero section** — no page should begin without a full-width hero.
+8. **Every page must have multiple content sections** — minimum 3 sections below the hero.
 
 ---
 
-### 🎨 Color Palette
+### 🎨 Color System — `@hackclub/theme`
 
+**Never define your own color variables.** All colors come from `@hackclub/theme` via `css.hackclub.com/theme.css`. Use the variables below — they are already declared globally once the stylesheet is loaded.
+
+**Brand colors:**
+```
+var(--red)     → #ec3750   ← primary accent, CTAs
+var(--orange)  → #ff8c37
+var(--yellow)  → #f1c40f
+var(--green)   → #33d6a6
+var(--cyan)    → #5bc0de
+var(--blue)    → #338eda
+var(--purple)  → #a633d6
+var(--muted)   → #8492a6
+```
+
+**Semantic / layout colors (also from the theme):**
+```
+var(--darker)     → #121217   ← deepest background (use for page bg in dark mode)
+var(--dark)       → #17171d   ← secondary dark background
+var(--darkless)   → #252429   ← card / surface backgrounds
+var(--black)      → #1f2d3d   ← default text color (light mode)
+var(--slate)      → #3c4858
+var(--muted)      → #8492a6   ← secondary text
+var(--smoke)      → #e0e6ed   ← borders, dividers
+var(--snow)       → #f9fafc
+var(--white)      → #ffffff
+
+var(--primary)    → #ec3750   ← alias for red, use for all primary actions
+var(--secondary)  → #8492a6
+var(--accent)     → #5bc0de   ← theme's accent (cyan) — note: theme uses cyan here
+var(--background) → var(--white) by default — override to var(--darker) for dark pages
+var(--elevated)   → var(--white) by default — override to var(--darkless)
+var(--sunken)     → var(--smoke) by default — override to var(--dark)
+var(--border)     → var(--smoke) by default — override to a darker value
+var(--text)       → var(--black) by default — override to var(--white) for dark mode
+```
+
+**Dark mode override — add to `src/styles/global.css`:**
 ```css
+/* Override theme defaults to dark mode for this site */
 :root {
-  /* Hack Club Official Brand Colors */
-  --color-red:     #ec3750;
-  --color-orange:  #ff8c37;
-  --color-yellow:  #f1c40f;
-  --color-green:   #33d6a6;
-  --color-cyan:    #5bc0de;
-  --color-blue:    #338eda;
-  --color-purple:  #a633d6;
-  --color-muted:   #8492a6;
-
-  /* Site Layout Colors */
-  --bg-primary:    #0a0a0a;   /* Main page background — deep black */
-  --bg-secondary:  #111111;   /* Card / section backgrounds */
-  --bg-surface:    #1a1a1a;   /* Elevated surfaces, modals, tooltips */
-  --border-color:  #2a2a2a;   /* Subtle borders */
-
-  /* Text */
-  --text-primary:  #ffffff;
-  --text-secondary: #a0a0a0;
-  --text-muted:    #555555;
-
-  /* Accent — the primary call-to-action color */
-  --accent:        #ec3750;   /* Hack Club Red — use for CTAs, highlights, hover states */
-  --accent-hover:  #d42d43;
+  --background: var(--darker);
+  --elevated:   var(--darkless);
+  --sunken:     var(--dark);
+  --border:     #2a2a2a;
+  --text:       var(--white);
 }
 ```
 
 **Usage rules:**
-- Primary CTAs → `--accent` (red) with white text
-- Secondary CTAs → transparent/outline with `--accent` border
-- Section accent lines, underlines, highlights → any brand color, vary per section
+- Primary CTAs → `var(--primary)` (red) with white text
+- Secondary CTAs → `.outline` button class (see Buttons below)
+- Hero gradient accents → `linear-gradient(135deg, var(--red), var(--orange))`
+- Section accent stripes → rotate through brand colors, vary per section
 - Never use more than 2 brand colors in a single component
-- Gradient accents: `linear-gradient(135deg, var(--color-red), var(--color-orange))` for hero elements
+- Never hardcode hex values — always use theme variables
 
 ---
 
-### 🔤 Typography
+### 🔤 Typography & Font Setup
 
 **Primary font:** Phantom Sans (Hack Club brand font)  
 **Fallback stack:** `'Phantom Sans', 'Helvetica Neue', Arial, sans-serif`
 
-**Step 1 — Declare `@font-face` in `src/styles/fonts.css` using Hack Club's CDN:**
+**Step 1 — Link both theme stylesheets in `src/layouts/BaseLayout.astro` `<head>`:**
+
+```html
+<!-- @hackclub/theme base styles (colors, components, typography) -->
+<link rel="stylesheet" href="https://css.hackclub.com/theme.css">
+<!-- Phantom Sans font — loaded via Hack Club CDN -->
+<link rel="stylesheet" href="https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2">
+```
+
+> The theme stylesheet already sets `font-family` on body elements. The fonts stylesheet loads Phantom Sans from Hack Club's CDN — this is permitted for chapter sites.
+
+**Step 2 — Declare font faces in `src/styles/fonts.css` using Hack Club's CDN:**
 
 ```css
 /* src/styles/fonts.css */
@@ -109,9 +141,7 @@ Every page must feel polished, tech-savvy, and energizing — this is not a blog
 }
 ```
 
----
-
-**Step 2 — Import in `src/styles/global.css` and set as base font:**
+**Step 3 — Import in `src/styles/global.css` and wire into Tailwind:**
 
 ```css
 /* src/styles/global.css */
@@ -127,30 +157,23 @@ Every page must feel polished, tech-savvy, and energizing — this is not a blog
 }
 ```
 
----
-
-**Step 3 — Register in `tailwind.config.mjs` so `font-sans` and `prose` inherit it:**
+**Step 4 — Register in `tailwind.config.mjs` so `font-sans` and `prose` inherit Phantom Sans:**
 
 ```js
 // tailwind.config.mjs
 import defaultTheme from 'tailwindcss/defaultTheme'
 import typography from '@tailwindcss/typography'
 
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
   theme: {
     extend: {
       fontFamily: {
-        // Overrides Tailwind's default sans → font-sans class now uses Phantom Sans
         sans: ['Phantom Sans', ...defaultTheme.fontFamily.sans],
       },
-      // Extend typography plugin so prose blocks use Phantom Sans too
       typography: ({ theme }) => ({
         DEFAULT: {
-          css: {
-            fontFamily: theme('fontFamily.sans').join(', '),
-          },
+          css: { fontFamily: theme('fontFamily.sans').join(', ') },
         },
       }),
     },
@@ -159,30 +182,29 @@ export default {
 }
 ```
 
----
+**Type scale — use `@hackclub/theme` font size variables OR Tailwind `text-*` classes:**
 
-**Result:** After this setup —
-- `font-sans` Tailwind class → Phantom Sans
-- `prose` / `prose-invert` (from `@tailwindcss/typography`) → Phantom Sans
-- All body text → Phantom Sans via the `@layer base` rule
+| Theme Variable | Tailwind Class | Size   | Usage                          |
+|----------------|----------------|--------|--------------------------------|
+| `var(--font-1)` | `text-xs`     | 12px   | Labels, badges, captions       |
+| `var(--font-2)` | `text-base`   | 16px   | Primary body text              |
+| `var(--font-3)` | `text-xl`     | 20px   | Lead paragraph, card text      |
+| `var(--font-4)` | `text-2xl`    | 24px   | Card headings                  |
+| `var(--font-5)` | `text-3xl`    | 32px   | Section headings               |
+| `var(--font-6)` | `text-5xl`    | 48px   | Page headings                  |
+| `var(--font-7)` | `text-7xl`    | 96px   | Hero display text              |
 
-**Type scale — use Tailwind's built-in `text-*` classes:**
+For Markdown/MDX content (blog posts, workshop descriptions) wrap in `prose prose-invert` — inherits Phantom Sans via Tailwind typography config.
 
-| Tailwind Class | Size     | Usage                                  |
-|----------------|----------|----------------------------------------|
-| `text-xs`      | 0.75rem  | Labels, badges, captions               |
-| `text-sm`      | 0.875rem | Secondary body, metadata               |
-| `text-base`    | 1rem     | Primary body text                      |
-| `text-lg`      | 1.125rem | Subheadings, lead paragraphs           |
-| `text-xl`      | 1.25rem  | Card headings                          |
-| `text-2xl`     | 1.5rem   | Section headings (mobile)              |
-| `text-3xl`     | 1.875rem | Section headings (desktop)             |
-| `text-4xl`     | 2.25rem  | Page headings                          |
-| `text-5xl`     | 3rem     | Hero headlines (medium)                |
-| `text-6xl`     | 4rem     | Hero headlines (large screens)         |
-| `text-[clamp(3rem,8vw,6rem)]` | fluid | Full-width hero display text — use Tailwind's arbitrary value syntax |
-
-For Markdown/MDX content blocks (blog posts, workshop descriptions), wrap in `prose prose-invert` — this will automatically apply Phantom Sans and sensible typographic styles via `@tailwindcss/typography`.
+**Theme heading classes (use on `<h*>` tags):**
+- `.ultratitle` — very large display title
+- `.title` — moderately large title  
+- `.subtitle` — smaller title
+- `.headline` — for use in large text bodies (has built-in margins)
+- `.subheadline` — smaller version of `.headline`
+- `.eyebrow` — gray, all-caps label for section intros
+- `.lead` — font-weight 400 variant
+- `.caption` — image captions
 
 ---
 
@@ -284,78 +306,110 @@ Every hero **must** include:
 5. A decorative visual element (could be: floating cards, code snippet, pixel art, terminal, grid of screenshots)
 6. Subtle background: dot grid pattern, gradient mesh, or noise texture
 
-**Hero background technique (CSS):**
+**Hero background technique (CSS using theme variables):**
 ```css
 .hero {
   background:
     radial-gradient(ellipse at 20% 50%, rgba(236, 55, 80, 0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 20%, rgba(51, 214, 166, 0.06) 0%, transparent 50%),
-    var(--bg-primary);
+    var(--darker);
+  padding: var(--spacing-6) 0;
 }
 /* Optional dot grid overlay */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, #333 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--darkless) 1px, transparent 1px);
   background-size: 32px 32px;
-  opacity: 0.15;
+  opacity: 0.4;
   pointer-events: none;
 }
 ```
 
 ### Card / Bento Grid Rules
 
-```css
-.card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-}
+**Use `@hackclub/theme` card classes — do not hand-roll card styles:**
+
+```html
+<!-- Standard card -->
+<div class="card">...</div>
+
+<!-- Card without shadow, uses --sunken color -->
+<div class="card sunken">...</div>
+
+<!-- Clickable card that grows on hover -->
+<div class="card interactive">...</div>
 ```
 
-Bento grids should use `display: grid` with `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`.  
-Feature bento: Use asymmetric grids where one card spans 2 columns for visual hierarchy.
+Bento grids use `display: grid` with `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`.  
+Feature bento: use asymmetric grids where one card spans 2 columns for visual hierarchy.  
+Add `gap: var(--spacing-3)` between cards (uses theme spacing tokens).
 
 ### Button System
 
-```css
-/* Primary CTA */
-.btn-primary {
-  background: var(--accent);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-family: 'Phantom Sans', sans-serif;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-}
-.btn-primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-}
+**Use `@hackclub/theme` button elements — do not write custom button CSS:**
 
-/* Ghost/Secondary */
-.btn-ghost {
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-family: 'Phantom Sans', sans-serif;
-  transition: border-color 0.2s;
-}
-.btn-ghost:hover {
-  border-color: var(--text-primary);
-}
+```html
+<!-- Default filled button (uses --primary color automatically) -->
+<button>Join the Club</button>
+
+<!-- Large button -->
+<button class="lg">Join the Club</button>
+
+<!-- Outline / ghost button -->
+<button class="outline">Learn More</button>
+
+<!-- High-emphasis CTA with gradient background -->
+<button class="cta">Start Hacking →</button>
+```
+
+**Pairing for hero sections** — primary + secondary side by side:
+```html
+<button class="lg cta">Join the Club</button>
+<button class="lg outline">See Our Workshops</button>
+```
+
+> Never write `.btn-primary`, `.btn-ghost`, or any custom button classes — the theme handles all button variants natively on `<button>` elements.
+
+### Badge / Pill System
+
+```html
+<!-- Standard filled badge -->
+<span class="pill">Beginner</span>
+
+<!-- Outline badge -->
+<span class="outline-badge">Python</span>
+```
+
+Use `.pill` for difficulty levels, event types, and status labels.  
+Use `.outline-badge` for tech stack tags and topic filters.
+
+### Container / Layout System
+
+```html
+<!-- Full layout width (1024px) -->
+<div class="container">...</div>
+
+<!-- Wide (1536px) -->
+<div class="container wide">...</div>
+
+<!-- Readable text width (680px) — for blog/workshop content -->
+<div class="container copy">...</div>
+
+<!-- Narrow (512px) — for forms, modals -->
+<div class="container narrow">...</div>
+```
+
+Use theme spacing tokens for padding and gaps:
+```
+var(--spacing-1) → 4px
+var(--spacing-2) → 8px
+var(--spacing-3) → 16px   ← standard component padding
+var(--spacing-4) → 32px   ← section inner padding
+var(--spacing-5) → 64px   ← section vertical spacing
+var(--spacing-6) → 128px  ← hero vertical padding
+```
 ```
 
 ---
@@ -493,9 +547,15 @@ Define schemas in `src/content/config.ts`.
 ## ✅ Pre-Commit Checklist (run through this before finishing any feature)
 
 - [ ] "Hack Club" is spelled correctly everywhere (not hackclub/HackClub/etc.)
-- [ ] All colors use CSS variables, no hardcoded hex
-- [ ] Phantom Sans is loaded and applied to all text
+- [ ] All colors use `@hackclub/theme` CSS variables — no hardcoded hex values
+- [ ] Buttons use `<button>` with theme classes (`.cta`, `.outline`, `.lg`) — no custom button CSS
+- [ ] Cards use `.card`, `.card.interactive`, or `.card.sunken` — no custom card CSS
+- [ ] Badges use `.pill` or `.outline-badge` — no custom badge CSS
+- [ ] Layout uses `.container`, `.container.wide`, `.container.copy`, etc.
+- [ ] Phantom Sans loaded from Hack Club CDN via `src/styles/fonts.css`
+- [ ] `css.hackclub.com/theme.css` linked in `BaseLayout.astro` `<head>`
 - [ ] Logo loaded from `assets.hackclub.com` CDN (not local)
+- [ ] Page background overridden to `var(--darker)` in `global.css`
 - [ ] Page has a hero section
 - [ ] Page has 3+ sections below the hero
 - [ ] All interactive elements have hover states
@@ -509,18 +569,22 @@ Define schemas in `src/content/config.ts`.
 
 ## 🚫 Anti-Patterns — Never Do These
 
-| ❌ Don't                                      | ✅ Do Instead                                   |
-|----------------------------------------------|------------------------------------------------|
-| Write "hackclub" as one word                 | Always write "Hack Club"                       |
-| Use hardcoded `#ec3750` in component CSS     | Use `var(--accent)` or `var(--color-red)`      |
-| Use Inter, Roboto, or system-ui fonts        | Use Phantom Sans                               |
-| Host logo files locally                      | Load from `assets.hackclub.com`                |
-| Create pages without heroes                  | Every page needs a hero                        |
-| Use purple gradient on white (generic AI look) | Use dark bg with red accent                  |
-| Use generic icon libraries (FontAwesome)     | Use `@hackclub/icons`                          |
-| Skip mobile responsiveness                   | Mobile-first, always                           |
-| Invent new color variables                   | Extend the existing palette only              |
-| Add unnecessary JavaScript                   | Prefer CSS-only animations, Astro static output|
+| ❌ Don't                                          | ✅ Do Instead                                        |
+|--------------------------------------------------|-----------------------------------------------------|
+| Write "hackclub" as one word                     | Always write "Hack Club"                            |
+| Use hardcoded hex colors like `#ec3750`          | Use `var(--red)` or `var(--primary)` from theme     |
+| Define custom color variables (`--my-bg`)        | Use `@hackclub/theme` variables exclusively         |
+| Write custom `.btn-primary` / `.btn-ghost` CSS   | Use `<button>`, `<button class="cta">`, `<button class="outline">` |
+| Write custom `.card { border-radius: ... }` CSS  | Use `.card`, `.card.interactive`, `.card.sunken`    |
+| Write custom badge/pill CSS                      | Use `.pill` and `.outline-badge` from theme         |
+| Use Inter, Roboto, or system-ui fonts            | Use Phantom Sans via CDN `@font-face`               |
+| Host logo files locally                          | Load from `assets.hackclub.com`                     |
+| Create pages without heroes                      | Every page needs a hero                             |
+| Use purple gradient on white (generic AI look)   | Use `var(--darker)` bg with `var(--primary)` accent |
+| Use generic icon libraries (FontAwesome)         | Use `@hackclub/icons`                               |
+| Skip mobile responsiveness                       | Mobile-first, always                                |
+| Invent new spacing values                        | Use `var(--spacing-1)` through `var(--spacing-8)`   |
+| Add unnecessary JavaScript                       | Prefer CSS-only animations, Astro static output     |
 
 ---
 

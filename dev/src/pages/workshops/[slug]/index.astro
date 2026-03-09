@@ -48,7 +48,7 @@ const { Content } = await render(workshop);
       workshop.data.links && workshop.data.links.length > 0 && (
         <div class="not-prose mt-6 flex flex-wrap gap-3">
           {workshop.data.links.map((link) => (
-            <a class="btn-primary" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
+            <a class="btn" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
           ))}
         </div>
       )

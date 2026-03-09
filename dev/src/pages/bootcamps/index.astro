@@ -13,7 +13,7 @@ const featuredBootcamp = bootcamps[0]; // Web Development is first
   currentPath="/bootcamps"
 >
   <!-- Hero Section -->
-  <section class="surface mb-12">
+  <section class="card mb-12">
     <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-orange)">// LEARN BY BUILDING</p>
     <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Master new skills every month.</h1>
     <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
@@ -21,15 +21,15 @@ const featuredBootcamp = bootcamps[0]; // Web Development is first
       Each bootcamp combines hands-on projects, expert mentorship, and real-world applications.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn-primary" href="#all-bootcamps">Explore all tracks</a>
-      <a class="btn-secondary" href="/events">View past events</a>
+      <a class="btn" href="#all-bootcamps">Explore all tracks</a>
+      <a class="btn outline" href="/events">View past events</a>
     </div>
   </section>
 
   <!-- Featured Bootcamp Spotlight -->
   <section class="mb-12">
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Featured Track</h2>
-    <div class="surface" style="background: linear-gradient(135deg, rgba(236, 55, 80, 0.05), rgba(255, 140, 55, 0.05));">
+    <div class="card" style="background: linear-gradient(135deg, rgba(236, 55, 80, 0.05), rgba(255, 140, 55, 0.05));">
       <div class="grid gap-8 md:grid-cols-2">
         <div>
           <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.title}</h3>
@@ -68,7 +68,7 @@ const featuredBootcamp = bootcamps[0]; // Web Development is first
   <!-- Technologies Covered -->
   <section class="mb-12">
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Technologies You'll Learn</h2>
-    <div class="surface">
+    <div class="card">
       <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
         <div class="text-center">
           <div class="mb-2 text-4xl">🐍</div>
@@ -108,13 +108,13 @@ const featuredBootcamp = bootcamps[0]; // Web Development is first
 
   <!-- Success Stories / CTA -->
   <section>
-    <div class="surface text-center">
+    <div class="card text-center">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Want to suggest a bootcamp?</h2>
       <p class="mt-3 text-slate-600 dark:text-slate-300">
         Have an idea for a future bootcamp track? We're always looking for new topics and technologies to explore together.
       </p>
       <div class="mt-6">
-        <a class="btn-primary" href="/contact">Share your idea</a>
+        <a class="btn" href="/contact">Share your idea</a>
       </div>
     </div>
   </section>

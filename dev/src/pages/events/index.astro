@@ -14,7 +14,7 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
   currentPath="/events"
 >
   <!-- Hero Section -->
-  <section class="surface mb-12">
+  <section class="card mb-12">
     <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-green)">// ALWAYS BUILDING</p>
     <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Something's always happening.</h1>
     <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
@@ -22,8 +22,8 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
       build, and share. Season 5 has already delivered two successful events with strong participation and outcomes.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn-primary" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow for updates</a>
-      <a class="btn-secondary" href="#past-events">View past events</a>
+      <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow for updates</a>
+      <a class="btn outline" href="#past-events">View past events</a>
     </div>
   </section>
 
@@ -45,15 +45,15 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
   <section class="mb-12">
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Season 5 Impact</h2>
     <div class="grid gap-6 sm:grid-cols-3">
-      <div class="surface text-center">
+      <div class="card text-center">
         <p class="text-4xl font-bold" style="color: var(--accent)">{events.length}</p>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Events Delivered</p>
       </div>
-      <div class="surface text-center">
+      <div class="card text-center">
         <p class="text-4xl font-bold" style="color: var(--color-green)">100+</p>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Total Participants</p>
       </div>
-      <div class="surface text-center">
+      <div class="card text-center">
         <p class="text-4xl font-bold" style="color: var(--color-blue)">Level 3</p>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Achievement Tier</p>
       </div>
@@ -62,27 +62,27 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
 
   <!-- Hackathons / Special Events -->
   <section class="mb-12">
-    <div class="surface">
+    <div class="card">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Planning a Hackathon?</h2>
       <p class="mt-3 text-slate-600 dark:text-slate-300">
         We're always looking to collaborate with other clubs and organizations. Whether you're hosting a hackathon, 
         running a workshop, or organizing a tech event, we'd love to partner up or participate.
       </p>
       <div class="mt-6">
-        <a class="btn-secondary" href="/contact">Get in touch</a>
+        <a class="btn outline" href="/contact">Get in touch</a>
       </div>
     </div>
   </section>
 
   <!-- Newsletter / Follow CTA -->
   <section>
-    <div class="surface text-center" style="background: linear-gradient(135deg, rgba(51, 214, 166, 0.1), rgba(51, 142, 218, 0.1));">
+    <div class="card text-center" style="background: linear-gradient(135deg, rgba(51, 214, 166, 0.1), rgba(51, 142, 218, 0.1));">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Never miss an event</h2>
       <p class="mt-3 text-slate-600 dark:text-slate-300">
         Follow us on Instagram to get the latest updates, event announcements, and registration links.
       </p>
       <div class="mt-6">
-        <a class="btn-primary" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">
+        <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">
           Follow @gh_hackclub
         </a>
       </div>

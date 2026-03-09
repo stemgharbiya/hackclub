@@ -12,7 +12,7 @@ const { team } = Astro.props as Props;
 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
   {
     team.map(({ data, body }) => (
-      <article class="surface p-4">
+      <article class="card p-4">
         <Image
           src={data.photo}
           alt={data.name}

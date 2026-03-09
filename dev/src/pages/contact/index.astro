@@ -12,7 +12,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   currentPath="/contact"
 >
   <!-- Hero Section -->
-  <section class="surface mb-12">
+  <section class="card mb-12">
     <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-yellow)">// GET IN TOUCH</p>
     <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Let's connect.</h1>
     <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
@@ -20,8 +20,8 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
       Looking to join the team? We'd love to hear from you.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn-primary" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">DM us on Instagram</a>
-      <a class="btn-secondary" href="https://github.com/hack-club-gh" target="_blank" rel="noreferrer">Visit our GitHub</a>
+      <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">DM us on Instagram</a>
+      <a class="btn outline" href="https://github.com/hack-club-gh" target="_blank" rel="noreferrer">Visit our GitHub</a>
     </div>
   </section>
 
@@ -29,7 +29,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <section class="mb-12">
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Where to Find Us</h2>
     <div class="grid gap-6 md:grid-cols-2">
-      <div class="surface">
+      <div class="card">
         <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Instagram</h3>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
           Follow us for event announcements, workshop updates, behind-the-scenes content, and registration links.
@@ -40,7 +40,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
           </a>
         </div>
       </div>
-      <div class="surface">
+      <div class="card">
         <h3 class="text-xl font-semibold text-slate-900 dark:text-white">GitHub</h3>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
           Check out our repositories, project submissions, and contributions to the open-source community.
@@ -57,7 +57,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <!-- Office Hours / Meeting Times -->
   <section class="mb-12">
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">When We Meet</h2>
-    <div class="surface">
+    <div class="card">
       <p class="text-slate-600 dark:text-slate-300">
         Our club activities run during the school year with intensive bootcamp sessions from February to June. 
         For specific meeting times, workshop schedules, and event dates, check our Instagram stories and posts.
@@ -84,7 +84,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <!-- Community Stats / Social Proof -->
   <section class="mb-12">
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Join an Active Community</h2>
-    <div class="surface">
+    <div class="card">
       <p class="mb-6 text-slate-600 dark:text-slate-300">
         We're not just a club — we're a thriving community of makers, learners, and builders.
       </p>
@@ -107,15 +107,15 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
 
   <!-- Alternative Contact Methods / CTA -->
   <section>
-    <div class="surface text-center" style="background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(236, 55, 80, 0.1));">
+    <div class="card text-center" style="background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(236, 55, 80, 0.1));">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ready to get started?</h2>
       <p class="mt-3 text-slate-600 dark:text-slate-300">
         The best time to join was at the start of the season. The second best time is now. 
         Follow us on Instagram to stay in the loop.
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a class="btn-primary" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow @gh_hackclub</a>
-        <a class="btn-secondary" href="/events">View upcoming events</a>
+        <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow @gh_hackclub</a>
+        <a class="btn outline" href="/events">View upcoming events</a>
       </div>
     </div>
   </section>
