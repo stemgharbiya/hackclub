@@ -80,3 +80,30 @@ a.btn.cta {
     var(--red)
   );
 }
+
+/* Hack Club Gradient Utilities */
+/* Card background gradients - 8% opacity for subtle, professional accents */
+
+.gradient-red-orange {
+  background: linear-gradient(135deg, rgba(236, 55, 80, 0.08), rgba(255, 140, 55, 0.08));
+}
+
+.gradient-purple-blue {
+  background: linear-gradient(135deg, rgba(166, 51, 214, 0.08), rgba(51, 142, 218, 0.08));
+}
+
+.gradient-green-cyan {
+  background: linear-gradient(135deg, rgba(51, 214, 166, 0.08), rgba(51, 142, 218, 0.08));
+}
+
+.gradient-red-green {
+  background: linear-gradient(135deg, rgba(236, 55, 80, 0.08), rgba(51, 214, 166, 0.08));
+}
+
+.gradient-cyan-purple {
+  background: linear-gradient(135deg, rgba(93, 192, 222, 0.08), rgba(166, 51, 214, 0.08));
+}
+
+.gradient-yellow-red {
+  background: linear-gradient(135deg, rgba(241, 196, 15, 0.08), rgba(236, 55, 80, 0.08));
+}

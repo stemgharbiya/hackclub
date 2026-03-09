@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCards from '../../components/EventCards.astro';
+import theme from '@hackclub/theme';
 
 const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const upcomingEvents = events.filter(e => e.data.date > new Date());
@@ -16,13 +17,13 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
   <!-- Hero Section -->
   <section class="card mb-12">
     <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-green)">// ALWAYS BUILDING</p>
-    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Something's always happening.</h1>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('green', 'cyan')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Something's always happening.</h1>
     <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
       From kickoff celebrations to workshop fairs, our events bring the community together to learn, 
       build, and share. Season 5 has already delivered two successful events with strong participation and outcomes.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow for updates</a>
+      <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow for updates</a>
       <a class="btn outline" href="#past-events">View past events</a>
     </div>
   </section>
@@ -76,13 +77,13 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
 
   <!-- Newsletter / Follow CTA -->
   <section>
-    <div class="card text-center" style="background: linear-gradient(135deg, rgba(51, 214, 166, 0.1), rgba(51, 142, 218, 0.1));">
+    <div class="card text-center gradient-green-cyan">
       <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Never miss an event</h2>
       <p class="mt-3 text-slate-600 dark:text-slate-300">
         Follow us on Instagram to get the latest updates, event announcements, and registration links.
       </p>
       <div class="mt-6">
-        <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">
+        <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">
           Follow @gh_hackclub
         </a>
       </div>

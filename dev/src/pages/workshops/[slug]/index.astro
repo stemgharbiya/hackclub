@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Icon from '../../../components/Icon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import theme from '@hackclub/theme';
 
 export async function getStaticPaths() {
   const workshops = await getCollection('workshops');
@@ -48,7 +49,7 @@ const { Content } = await render(workshop);
       workshop.data.links && workshop.data.links.length > 0 && (
         <div class="not-prose mt-6 flex flex-wrap gap-3">
           {workshop.data.links.map((link) => (
-            <a class="btn" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
+            <a class="btn cta" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
           ))}
         </div>
       )

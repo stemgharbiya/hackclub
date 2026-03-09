@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TeamGrid from '../../components/TeamGrid.astro';
+import theme from '@hackclub/theme';
 
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -14,13 +15,13 @@ const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.
   <!-- Hero Section -->
   <section class="card mb-12">
     <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-blue)">// WHO WE ARE</p>
-    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Building the future, together.</h1>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('red', 'green')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Building the future, together.</h1>
     <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
       Gharbiya STEM Hack Club is a student-led technology community focused on practical learning, collaboration, and maker culture.
       Our mission is to turn curiosity into shipped work through structured training tracks and high-energy events.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn" href="/bootcamps">Explore bootcamps</a>
+      <a class="btn cta" href="/bootcamps">Explore bootcamps</a>
       <a class="btn outline" href="/contact">Get in touch</a>
     </div>
   </section>
@@ -135,13 +136,13 @@ const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.
 
   <!-- CTA Section -->
   <section>
-    <div class="card text-center" style="background: linear-gradient(135deg, rgba(236, 55, 80, 0.1), rgba(51, 214, 166, 0.1));">
+    <div class="card text-center gradient-red-green">
       <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Ready to join us?</h2>
       <p class="mt-3 text-slate-600 dark:text-slate-300">
         Follow our journey on Instagram and check out upcoming events.
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a class="btn" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow on Instagram</a>
+        <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow on Instagram</a>
         <a class="btn outline" href="/events">View events</a>
       </div>
     </div>
