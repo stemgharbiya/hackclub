@@ -6,6 +6,7 @@ season: 5
 outcome: Successful introduction to HackClub featuring bootcamp descriptions, blue team vs red team competition, and sticker giveaways.
 featured: true
 registrationUrl: https://www.instagram.com/gh_hackclub/
+description: The inaugural season 5 event introducing HackClub and featuring an exciting blue team vs red team security competition with bootcamp showcases.
 ---
 ## Event Overview
 

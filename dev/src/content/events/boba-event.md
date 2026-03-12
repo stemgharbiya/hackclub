@@ -6,6 +6,7 @@ season: 5
 outcome: Strong attendance, high engagement, successful onboarding across all tracks, and fulfilled boba workshop grant with fun activities including Sporcle party, CS buzzers, problem-solving and math challenges.
 featured: true
 registrationUrl: https://www.instagram.com/gh_hackclub/
+description: A vibrant community event featuring boba grant fulfillment, interactive games, and CS challenges that successfully onboarded members across all bootcamp tracks.
 ---
 ## Event Highlights
 

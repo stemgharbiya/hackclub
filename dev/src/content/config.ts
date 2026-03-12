@@ -24,7 +24,8 @@ const events = defineCollection({
     season: z.number().int().positive(),
     outcome: z.string(),
     featured: z.boolean().default(false),
-    registrationUrl: z.string().url().optional()
+    registrationUrl: z.string().url().optional(),
+    description: z.string().optional()
   })
 });
 
@@ -47,6 +48,7 @@ const workshops = defineCollection({
     date: z.coerce.date(),
     provider: z.string(),
     outcome: z.string(),
+    description: z.string().optional(),
     participations: z.number().int().nonnegative().optional(),
     approvedSubmissions: z.number().int().nonnegative().optional(),
     budgetSpent: z.string().optional(),

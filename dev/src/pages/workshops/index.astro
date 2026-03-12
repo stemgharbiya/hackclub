@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Icon from '../../components/Icon.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import theme from '@hackclub/theme';
+import { marked } from 'marked';
 
 const workshops = (await getCollection('workshops')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const featuredWorkshop = workshops[0]; // Most recent workshop
@@ -37,7 +38,11 @@ const featuredWorkshop = workshops[0]; // Most recent workshop
             {featuredWorkshop.data.date.toLocaleDateString('en-GB')} · {featuredWorkshop.data.provider}
           </p>
           <h3 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{featuredWorkshop.data.title}</h3>
-          <p class="mt-3 text-slate-600 dark:text-slate-300">{featuredWorkshop.body}</p>
+          {featuredWorkshop.data.description ? (
+            <div class="mt-3 text-slate-600 dark:text-slate-300" set:html={marked.parse(featuredWorkshop.data.description)} />
+          ) : (
+            <p class="mt-3 text-slate-600 dark:text-slate-300">{featuredWorkshop.body}</p>
+          )}
           <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">
             <strong>Outcome:</strong> {featuredWorkshop.data.outcome}
           </p>
@@ -78,7 +83,11 @@ const featuredWorkshop = workshops[0]; // Most recent workshop
           <article class="card">
             <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{data.date.toLocaleDateString('en-GB')} · {data.provider}</p>
             <h2 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{data.title}</h2>
-            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{body}</p>
+            {data.description ? (
+              <div class="mt-3 text-sm text-slate-600 dark:text-slate-300" set:html={marked.parse(data.description)} />
+            ) : (
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{body}</p>
+            )}
             <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">{data.outcome}</p>
             {
               (data.approvedSubmissions || data.participations || data.budgetSpent) && (

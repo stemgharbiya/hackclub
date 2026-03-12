@@ -1,6 +1,6 @@
 ---
 name: Mohamed Ismail
-role: Academics Head
+role: Academics Committee Head
 committee: Academics
 order: 8
 photo: ../../assets/images/team/mohamed-ismail_academics_head.jpeg
