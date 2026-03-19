@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { marked } from 'marked';
+
+interface Props {
+  events: CollectionEntry<'events'>[];
+}
+
+const { events } = Astro.props as Props;
+---
+
+<div class="grid gap-6 md:grid-cols-2">
+  {
+    events.map(({ id, data, body }) => (
+      <article class="card">
+        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{data.date.toLocaleDateString('en-GB')} · {data.location}</p>
+        <h3 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{data.title}</h3>
+        {data.description ? (
+          <div class="mt-2 text-sm text-slate-600 dark:text-slate-300" set:html={marked.parse(data.description)} />
+        ) : (
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{body}</p>
+        )}
+        <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">Outcome: {data.outcome}</p>
+        <div class="mt-4 flex items-center gap-4">
+          <a class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)" href={`/events/${id.replace(/\.md$/, '')}/`}>
+            Read details
+          </a>
+          {
+            data.registrationUrl && (
+              <a class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)" href={data.registrationUrl} target="_blank" rel="noreferrer">
+                Follow updates
+              </a>
+            )
+          }
+        </div>
+      </article>
+    ))
+  }
+</div>
+

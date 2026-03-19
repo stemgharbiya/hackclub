@@ -1,0 +1,34 @@
+---
+import HackClubIconWrapper from './HackClubIconWrapper.jsx';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className = 'w-5 h-5' } = Astro.props;
+
+// Map our icon names to Hack Club icon glyphs
+const iconMap: Record<string, string> = {
+  'github': 'github',
+  'instagram': 'instagram',
+  'sun': 'idea',           // Light mode - using lightbulb icon
+  'moon': 'freeze',        // Dark mode - using freeze icon
+  'check-circle': 'checkmark',
+  'wallet': 'purse',
+  'gift': 'flag',          // Rewards/gifts - using flag icon
+};
+
+const iconGlyph = iconMap[name] || name;
+
+// Extract size from Tailwind classes (e.g., 'w-5 h-5' → 20px, 'w-4 h-4' → 16px)
+const sizeMatch = className?.match(/w-(\d+)/);
+const size = sizeMatch ? parseInt(sizeMatch[1]) * 4 : 20; // Tailwind spacing: 1 = 4px
+---
+
+<HackClubIconWrapper 
+  glyph={iconGlyph}
+  size={size}
+  className={className}
+  client:only="react"
+/>

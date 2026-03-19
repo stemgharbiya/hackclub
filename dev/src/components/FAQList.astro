@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  faqs: CollectionEntry<'faqs'>[];
+}
+
+const { faqs } = Astro.props as Props;
+---
+
+<div class="space-y-4">
+  {
+    faqs.map(({ data, body }) => (
+      <details class="card group">
+        <summary class="cursor-pointer list-none text-base font-semibold text-slate-900 marker:hidden dark:text-slate-100">
+          {data.question}
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{body}</p>
+      </details>
+    ))
+  }
+</div>

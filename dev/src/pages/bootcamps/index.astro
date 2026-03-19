@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BootcampCards from '../../components/BootcampCards.astro';
+import theme from '@hackclub/theme';
+
+const bootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
+const featuredBootcamp = bootcamps[0]; // Web Development is first
+---
+
+<BaseLayout
+  title="Bootcamps | Gharbiya STEM Hack Club"
+  description="Explore the four major bootcamps running from February to June."
+  currentPath="/bootcamps"
+>
+  <!-- Hero Section -->
+  <section class="card mb-12">
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-orange)">// LEARN BY BUILDING</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('red', 'orange')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Master new skills every month.</h1>
+    <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+      Four focused training tracks designed to build practical skills from February to June. 
+      Each bootcamp combines hands-on projects, expert mentorship, and real-world applications.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn cta" href="#all-bootcamps">Explore all tracks</a>
+      <a class="btn outline" href="/events">View past events</a>
+    </div>
+  </section>
+
+  <!-- Featured Bootcamp Spotlight -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Featured Track</h2>
+    <div class="card gradient-red-orange">
+      <div class="grid gap-8 md:grid-cols-2">
+        <div>
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.title}</h3>
+          <p class="mt-2 text-sm font-medium" style="color: var(--accent)">{featuredBootcamp.data.period} · {featuredBootcamp.data.level}</p>
+          <p class="mt-4 text-slate-600 dark:text-slate-300">{featuredBootcamp.body}</p>
+          <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">
+            <strong>Track focus:</strong> {featuredBootcamp.data.mentorTrack}
+          </p>
+        </div>
+        <div class="flex items-center justify-center">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Duration</p>
+              <p class="text-lg font-bold text-slate-900 dark:text-white">5 months</p>
+            </div>
+            <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Level</p>
+              <p class="text-lg font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.level}</p>
+            </div>
+            <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800 col-span-2">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Period</p>
+              <p class="text-lg font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.period}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Bootcamps Grid -->
+  <section class="mb-12" id="all-bootcamps">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">All Bootcamp Tracks</h2>
+    <BootcampCards bootcamps={bootcamps} />
+  </section>
+
+  <!-- Technologies Covered -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Technologies You'll Learn</h2>
+    <div class="card">
+      <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+        <div class="text-center">
+          <div class="mb-2 text-4xl">🐍</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">Python</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">⚛️</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">React</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">🔒</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">Security</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">📊</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">Data Science</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">💻</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">C++</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">🎨</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">CSS & Design</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">🗄️</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">Databases</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-2 text-4xl">☁️</div>
+          <p class="text-sm font-medium text-slate-900 dark:text-white">Cloud Tools</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Stories / CTA -->
+  <section>
+    <div class="card text-center">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Want to suggest a bootcamp?</h2>
+      <p class="mt-3 text-slate-600 dark:text-slate-300">
+        Have an idea for a future bootcamp track? We're always looking for new topics and technologies to explore together.
+      </p>
+      <div class="mt-6">
+        <a class="btn cta" href="/contact">Share your idea</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+

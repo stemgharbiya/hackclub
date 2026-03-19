@@ -1,0 +1,62 @@
+---
+import { getCollection, render } from 'astro:content';
+import Icon from '../../../components/Icon.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import theme from '@hackclub/theme';
+
+export async function getStaticPaths() {
+  const workshops = await getCollection('workshops');
+  return workshops.map((workshop) => ({
+    params: { slug: workshop.id.replace(/\.md$/, '') },
+    props: { workshop }
+  }));
+}
+
+const { workshop } = Astro.props;
+const { Content } = await render(workshop);
+---
+
+<BaseLayout
+  title={`${workshop.data.title} | Workshops | Gharbiya STEM Hack Club`}
+  description={workshop.data.outcome}
+  currentPath="/workshops"
+>
+  <article class="surface prose prose-slate max-w-none dark:prose-invert">
+    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+      {workshop.data.date.toLocaleDateString('en-GB')} · {workshop.data.provider}
+    </p>
+    <h1>{workshop.data.title}</h1>
+    <p><strong>Outcome:</strong> {workshop.data.outcome}</p>
+    
+    {
+      (workshop.data.approvedSubmissions || workshop.data.participations || workshop.data.budgetSpent) && (
+        <div class="not-prose rounded-lg bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="font-semibold text-slate-900 dark:text-white">Key metrics:</p>
+          <ul class="mt-2 space-y-1 text-sm text-slate-700 dark:text-slate-300">
+            {workshop.data.approvedSubmissions && <li class="flex items-center gap-1.5"><Icon name="check-circle" class="w-4 h-4 flex-shrink-0" /> {workshop.data.approvedSubmissions} approved submissions</li>}
+            {workshop.data.participations && <li class="flex items-center gap-1.5"><Icon name="check-circle" class="w-4 h-4 flex-shrink-0" /> {workshop.data.participations}+ participations</li>}
+            {workshop.data.budgetSpent && <li class="flex items-center gap-1.5"><Icon name="wallet" class="w-4 h-4 flex-shrink-0" /> Budget: {workshop.data.budgetSpent}</li>}
+            {workshop.data.rewardsMarketing && <li class="flex items-center gap-1.5"><Icon name="gift" class="w-4 h-4 flex-shrink-0" /> Rewards & marketing: {workshop.data.rewardsMarketing}</li>}
+            {workshop.data.note && <li>{workshop.data.note}</li>}
+          </ul>
+        </div>
+      )
+    }
+    
+    <Content />
+    
+    {
+      workshop.data.links && workshop.data.links.length > 0 && (
+        <div class="not-prose mt-6 flex flex-wrap gap-3">
+          {workshop.data.links.map((link) => (
+            <a class="btn cta" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
+          ))}
+        </div>
+      )
+    }
+    
+    <p>
+      <a href="/workshops">← Back to workshops</a>
+    </p>
+  </article>
+</BaseLayout>

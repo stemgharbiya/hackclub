@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FAQList from '../../components/FAQList.astro';
+import { getCollection } from 'astro:content';
+import theme from '@hackclub/theme';
+
+const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Contact | Gharbiya STEM Hack Club"
+  description="Get in touch with Gharbiya STEM Hack Club and follow current activities."
+  currentPath="/contact"
+>
+  <!-- Hero Section -->
+  <section class="card mb-12">
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-yellow)">// GET IN TOUCH</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('yellow', 'red')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Let's connect.</h1>
+    <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+      Have questions about our bootcamps? Want to collaborate on an event? 
+      Looking to join the team? We'd love to hear from you.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">DM us on Instagram</a>
+      <a class="btn outline" href="https://github.com/hack-club-gh" target="_blank" rel="noreferrer">Visit our GitHub</a>
+    </div>
+  </section>
+
+  <!-- Contact Info / Social Links -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Where to Find Us</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="card">
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Instagram</h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          Follow us for event announcements, workshop updates, behind-the-scenes content, and registration links.
+        </p>
+        <div class="mt-4">
+          <a class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">
+            @gh_hackclub →
+          </a>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">GitHub</h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          Check out our repositories, project submissions, and contributions to the open-source community.
+        </p>
+        <div class="mt-4">
+          <a class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)" href="https://github.com/hack-club-gh" target="_blank" rel="noreferrer">
+            hack-club-gh →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Office Hours / Meeting Times -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">When We Meet</h2>
+    <div class="card">
+      <p class="text-slate-600 dark:text-slate-300">
+        Our club activities run during the school year with intensive bootcamp sessions from February to June. 
+        For specific meeting times, workshop schedules, and event dates, check our Instagram stories and posts.
+      </p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-sm font-semibold text-slate-900 dark:text-white">Bootcamp Season</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">February – June</p>
+        </div>
+        <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-sm font-semibold text-slate-900 dark:text-white">Current Level</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Level 3 (MAX)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Frequently Asked Questions</h2>
+    <FAQList faqs={faqs} />
+  </section>
+
+  <!-- Community Stats / Social Proof -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Join an Active Community</h2>
+    <div class="card">
+      <p class="mb-6 text-slate-600 dark:text-slate-300">
+        We're not just a club — we're a thriving community of makers, learners, and builders.
+      </p>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="text-center rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-3xl font-bold" style="color: var(--accent)">4</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Active Bootcamps</p>
+        </div>
+        <div class="text-center rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-3xl font-bold" style="color: var(--color-green)">100+</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Members Engaged</p>
+        </div>
+        <div class="text-center rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+          <p class="text-3xl font-bold" style="color: var(--color-blue)">2</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Events This Season</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alternative Contact Methods / CTA -->
+  <section>
+    <div class="card text-center gradient-yellow-red">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ready to get started?</h2>
+      <p class="mt-3 text-slate-600 dark:text-slate-300">
+        The best time to join was at the start of the season. The second best time is now. 
+        Follow us on Instagram to stay in the loop.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow @gh_hackclub</a>
+        <a class="btn outline" href="/events">View upcoming events</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+

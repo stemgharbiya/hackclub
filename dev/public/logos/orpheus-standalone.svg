@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+  <!-- Hack Club Orpheus Flag Standalone Logo -->
+  <!-- This is a reference to the official logo at https://assets.hackclub.com/flag-standalone.svg -->
+  <!-- In production, use: <img src="https://assets.hackclub.com/flag-standalone.svg" alt="Hack Club" />  -->
+  <defs>
+    <style>
+      @import url('https://assets.hackclub.com/flag-standalone.svg');
+    </style>
+  </defs>
+  <image href="https://assets.hackclub.com/flag-standalone.svg" width="100" height="100" />
+</svg>
