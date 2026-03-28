@@ -266,6 +266,7 @@
     border-radius: var(--radii-extra);
     box-shadow: var(--shadow-card);
     overflow: hidden;
+    padding: calc(var(--spacing-3) + var(--spacing-1));
   }
   
   .card.sunken {
@@ -352,8 +353,8 @@
   .container {
     width: 100%;
     margin: auto;
-    padding-left: var(--spacing-3);
-    padding-right: var(--spacing-3);
+    padding-left: max(var(--spacing-3), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-3), env(safe-area-inset-right));
   }
   
   h1 {
@@ -528,7 +529,7 @@
       margin-bottom: var(--spacing-2);
     }
     .card {
-      padding: var(--spacing-3);
+      padding: calc(var(--spacing-3) + var(--spacing-1));
     }
     .container {
       max-width: var(--size-layout);
