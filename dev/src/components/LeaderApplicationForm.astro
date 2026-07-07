@@ -1,0 +1,249 @@
+---
+const leadersGuidanceUrl = 'https://leaders.hackclub.com';
+import LeaderSubmitButton from './LeaderSubmitButton.astro';
+---
+
+<form class="space-y-8" data-leader-form>
+  <div class="grid gap-5 md:grid-cols-2">
+    <label class="block space-y-2">
+      <span class="text-sm font-semibold text-slate-900 dark:text-white">First name</span>
+      <input
+        name="first_name"
+        type="text"
+        autocomplete="given-name"
+        required
+        class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+        placeholder="Amina"
+      />
+    </label>
+
+    <label class="block space-y-2">
+      <span class="text-sm font-semibold text-slate-900 dark:text-white">Last name</span>
+      <input
+        name="last_name"
+        type="text"
+        autocomplete="family-name"
+        required
+        class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+        placeholder="Ibrahim"
+      />
+    </label>
+
+    <label class="block space-y-2">
+      <span class="text-sm font-semibold text-slate-900 dark:text-white">Email</span>
+      <input
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+        placeholder="you@example.com"
+      />
+    </label>
+
+    <label class="block space-y-2">
+      <span class="text-sm font-semibold text-slate-900 dark:text-white">Phone</span>
+      <input
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        required
+        class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+        placeholder="+20 1xx xxx xxxx"
+      />
+    </label>
+
+    <label class="block space-y-2 md:col-span-2">
+      <span class="text-sm font-semibold text-slate-900 dark:text-white">GitHub account</span>
+      <input
+        name="github_account"
+        type="text"
+        required
+        class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+        placeholder="https://github.com/your-handle or your handle"
+      />
+    </label>
+  </div>
+
+  <section class="rounded-3xl border border-slate-200 bg-slate-50/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+    <div class="max-w-3xl space-y-2">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">Background</p>
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Tell us about you and what you have done so far.</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-300">
+        We want to understand your story, the work you have already done, and how that experience would help you lead.
+      </p>
+    </div>
+
+    <div class="mt-5 space-y-5">
+      <label class="block space-y-2">
+        <span class="text-sm font-semibold text-slate-900 dark:text-white">About you</span>
+        <textarea
+          name="about_you"
+          rows="6"
+          required
+          class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          placeholder="Tell us about your background, interests, and anything that shaped you as a builder and leader."
+        ></textarea>
+      </label>
+
+      <label class="block space-y-2">
+        <span class="text-sm font-semibold text-slate-900 dark:text-white">Hack Club activity so far</span>
+        <textarea
+          name="hackclub_activity"
+          rows="6"
+          required
+          class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          placeholder="Describe the workshops, events, projects, organizing, or contributions you have already made in Hack Club."
+        ></textarea>
+      </label>
+    </div>
+  </section>
+
+  <section class="rounded-3xl border border-slate-200 bg-slate-50/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+    <div class="max-w-3xl space-y-2">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">Leadership vision</p>
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Show us how you will lead, ship, and make the season memorable.</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-300">
+        Read the available workshop and YSWS ideas first at{' '}
+        <a href={leadersGuidanceUrl} target="_blank" rel="noreferrer">leaders.hackclub.com</a>
+        {' '}so your answer reflects a real direction.
+      </p>
+    </div>
+
+    <div class="mt-5 space-y-5">
+      <label class="block space-y-2">
+        <span class="text-sm font-semibold text-slate-900 dark:text-white">Which workshop or YSWS would you choose?</span>
+        <textarea
+          name="which_workshop"
+          rows="5"
+          required
+          class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          placeholder="Pick one workshop or YSWS for the summer and explain why it makes sense for the club and for the person who can only participate once."
+        ></textarea>
+      </label>
+
+      <label class="block space-y-2">
+        <span class="text-sm font-semibold text-slate-900 dark:text-white">Event leadership</span>
+        <textarea
+          name="event_leadership"
+          rows="7"
+          required
+          class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          placeholder="Explain how you would coordinate with your team to run a successful event, market it before and after, and make it fun and worth attending."
+        ></textarea>
+      </label>
+
+      <label class="block space-y-2">
+        <span class="text-sm font-semibold text-slate-900 dark:text-white">Bootcamps for next season</span>
+        <textarea
+          name="bootcamps"
+          rows="5"
+          required
+          class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          placeholder="List the bootcamps you would want to run next season and why they fit the club."
+        ></textarea>
+      </label>
+
+      <label class="block space-y-2">
+        <span class="text-sm font-semibold text-slate-900 dark:text-white">Why should we choose you?</span>
+        <textarea
+          name="why_you"
+          rows="5"
+          required
+          class="w-full rounded-2xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+          placeholder="Close with your strongest case for why you should be selected as a leader."
+        ></textarea>
+      </label>
+    </div>
+  </section>
+
+  <section class="rounded-3xl border border-slate-200 bg-slate-50/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div class="space-y-2 lg:max-w-xl">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">Verification</p>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Complete the human check, then send the form.</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-300">
+          We use Cloudflare Turnstile to keep the application form spam-free and fair.
+        </p>
+      </div>
+
+        <div
+          class="cf-turnstile min-h-[70px] rounded-2xl border border-dashed border-slate-300 bg-white/70 p-3 dark:border-slate-700 dark:bg-slate-950"
+          data-sitekey="0x4AAAAAADxNcRYGLws31M7v"
+          data-theme="auto"
+        ></div>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <LeaderSubmitButton label="Submit application" />
+      <p class="text-sm text-slate-600 dark:text-slate-300" aria-live="polite" data-form-status></p>
+    </div>
+  </section>
+</form>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script is:inline>
+  const form = document.querySelector('[data-leader-form]');
+
+  if (form) {
+    const status = form.querySelector('[data-form-status]');
+    const submitButton = form.querySelector('[data-submit-button]');
+    const defaultButtonLabel = submitButton?.dataset.defaultLabel || 'Submit application';
+    const apiUrl = 'https://api.gharbiyahc.org/';
+
+    const setStatus = (message, tone = 'idle') => {
+      if (!status) return;
+      status.textContent = message;
+      status.style.color = tone === 'success' ? 'var(--green)' : tone === 'error' ? 'var(--red)' : 'var(--muted)';
+    };
+
+    setStatus('Complete the verification widget before submitting.', 'idle');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!submitButton) {
+        return;
+      }
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      if (!payload['cf-turnstile-response']) {
+        setStatus('Please complete the verification challenge before submitting.', 'error');
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting...';
+      setStatus('Sending your application to the team...', 'idle');
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Your application could not be submitted. Please try again.');
+        }
+
+        form.reset();
+
+        setStatus(result.message || 'Application submitted successfully. We will review it soon.', 'success');
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Something went wrong while submitting the form.';
+        setStatus(message, 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = defaultButtonLabel;
+      }
+    });
+  }
+</script>

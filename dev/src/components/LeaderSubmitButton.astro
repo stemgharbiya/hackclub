@@ -1,0 +1,16 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = 'Submit application' } = Astro.props as Props;
+---
+
+<button
+  type="submit"
+  data-submit-button
+  class="btn cta"
+  data-default-label={label}
+>
+  {label}
+</button>

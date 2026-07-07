@@ -1,4 +1,3 @@
-@import './hackclub-theme.css';
 @import './fonts.css';
 @tailwind base;
 @tailwind components;
@@ -34,8 +33,9 @@ a:hover {
   opacity: 0.8;
 }
 
-/* Extend button styles to <a> tags for navigation links styled as buttons */
-a.btn {
+/* Extend button styles to <a> and <button> elements for navigation and form actions */
+a.btn,
+button.btn {
   cursor: pointer;
   font-family: inherit;
   font-weight: var(--font-weight-bold);
@@ -54,26 +54,31 @@ a.btn {
   text-decoration: none;
 }
 
-a.btn:hover,
-a.btn:focus {
+ a.btn:hover,
+ a.btn:focus,
+ button.btn:hover,
+ button.btn:focus {
   box-shadow: var(--shadow-elevated);
   transform: scale(1.0625);
   opacity: 1;
 }
 
-a.btn.lg {
+a.btn.lg,
+button.btn.lg {
   font-size: var(--font-3);
   line-height: var(--line-height-title);
   padding: var(--spacing-3) var(--spacing-4);
 }
 
-a.btn.outline {
+a.btn.outline,
+button.btn.outline {
   background: none;
   color: var(--primary);
   border: 2px solid currentcolor;
 }
 
-a.btn.cta {
+a.btn.cta,
+button.btn.cta {
   background-image: radial-gradient(
     ellipse farthest-corner at top left,
     var(--orange),

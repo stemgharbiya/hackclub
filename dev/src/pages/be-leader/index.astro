@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LeaderApplicationForm from '../../components/LeaderApplicationForm.astro';
+import theme from '@hackclub/theme';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const leaders = team.filter((member) => member.data.role.toLowerCase().includes('leader') || member.data.role.toLowerCase().includes('president'));
+---
+
+<BaseLayout
+  title="Be a leader | Gharbiya STEM Hack Club"
+  description="Apply to join the next leadership team for Gharbiya STEM Hack Club."
+  currentPath="/be-leader"
+>
+  <section class="card mb-12 overflow-hidden gradient-red-orange">
+    <p class="text-sm font-semibold uppercase tracking-wide text-[var(--red)]">// LEAD THE NEXT SEASON</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('red', 'orange')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>
+      Apply to become a club leader.
+    </h1>
+    <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+      We are hiring new leaders to help shape the next season of Gharbiya STEM Hack Club. Tell us about your background, your Hack Club experience, the workshop or YSWS you would choose, and how you would help run events that people remember.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn cta" href="#application-form">Start the application</a>
+      <a class="btn outline" href="https://leaders.hackclub.com" target="_blank" rel="noreferrer">Explore workshop ideas</a>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <div class="grid gap-6 lg:grid-cols-3">
+      <div class="card">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">What we need</p>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Leaders who can build, organize, and communicate.</h2>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          We are looking for people who can take ownership, work with a team, and turn good ideas into real club experiences.
+        </p>
+      </div>
+      <div class="card">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">What to prepare</p>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Your story, your track record, and your plan.</h2>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          The form asks about your background, the Hack Club work you have already done, how you would lead an event, and which bootcamps you want to run next season.
+        </p>
+      </div>
+      <div class="card">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">Current team</p>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{leaders.length} current leaders.</h2>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          We are adding new leadership capacity for the next season, so use the form to show how you would strengthen the team.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <div class="card gradient-purple-blue">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">Before you apply</p>
+      <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Choose the right workshop or YSWS.</h2>
+      <p class="mt-3 max-w-3xl text-slate-600 dark:text-slate-300">
+        For the summer workshop question, think carefully about the available options and the fact that someone can only participate once. Review the options first, then explain why your choice fits the club and the people who will take part.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="btn cta" href="#application-form">Continue to the form</a>
+        <a class="btn outline" href="https://leaders.hackclub.com" target="_blank" rel="noreferrer">Read more on leaders.hackclub.com</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <div class="card">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">What happens next</p>
+      <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">We review, follow up, and build together.</h2>
+      <div class="mt-5 grid gap-4 md:grid-cols-3">
+        <div class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-900">
+          <p class="text-sm font-semibold text-slate-900 dark:text-white">1. Submit</p>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Complete the form and pass the human check.</p>
+        </div>
+        <div class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-900">
+          <p class="text-sm font-semibold text-slate-900 dark:text-white">2. Review</p>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">We read your answers and look for fit, initiative, and clear ownership.</p>
+        </div>
+        <div class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-900">
+          <p class="text-sm font-semibold text-slate-900 dark:text-white">3. Follow up</p>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">If it is a match, we reach out and start planning the next season.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12" id="application-form">
+    <div class="mb-6 max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-wide text-[var(--red)]">// APPLICATION FORM</p>
+      <h2 class="mt-3 text-3xl font-bold text-slate-900 dark:text-white">Tell us why you should lead.</h2>
+      <p class="mt-3 text-lg text-slate-600 dark:text-slate-300">
+        Answer honestly and in detail. We want to understand your background, your Hack Club journey, how you would lead an event, what bootcamps you would run next season, and why you are the right person for the role.
+      </p>
+    </div>
+
+    <LeaderApplicationForm />
+  </section>
+</BaseLayout>

@@ -20,6 +20,9 @@ defaults:
   run:
     working-directory: ./dev
 
+env:
+  PUBLIC_SHOW_LEADER_APPLICATIONS: ${{ vars.PUBLIC_SHOW_LEADER_APPLICATIONS }}
+
 jobs:
   build:
     runs-on: ubuntu-latest

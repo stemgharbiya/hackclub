@@ -6,6 +6,7 @@ import theme from '@hackclub/theme';
 
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 const leaders = team.filter(member => member.data.role.toLowerCase().includes('leader') || member.data.role.toLowerCase().includes('president'));
+const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS === 'true';
 ---
 
 <BaseLayout
@@ -52,6 +53,22 @@ const leaders = team.filter(member => member.data.role.toLowerCase().includes('l
       </div>
     </div>
   </section>
+
+  {showLeaderApplications && (
+    <section class="mb-12">
+      <div class="card gradient-red-orange">
+        <p class="text-sm font-semibold uppercase tracking-wide text-[var(--red)]">// WE'RE HIRING LEADERS</p>
+        <h2 class="mt-3 text-3xl font-bold text-slate-900 dark:text-white">Help shape the next season of the club.</h2>
+        <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+          We are looking for new leaders who can run workshops, coordinate events, and keep the club growing. If you want to apply, start with the form and show us how you would contribute.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a class="btn cta" href="/be-leader">Apply to be a leader</a>
+          <a class="btn outline" href="https://leaders.hackclub.com" target="_blank" rel="noreferrer">Learn about workshops</a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- Full Team Grid -->
   <section class="mb-12" id="all-members">
