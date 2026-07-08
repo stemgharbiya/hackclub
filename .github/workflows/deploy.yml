@@ -20,12 +20,12 @@ defaults:
   run:
     working-directory: ./dev
 
-env:
-  PUBLIC_SHOW_LEADER_APPLICATIONS: ${{ vars.PUBLIC_SHOW_LEADER_APPLICATIONS }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: github-pages
+    env:
+      PUBLIC_SHOW_LEADER_APPLICATIONS: ${{ vars.PUBLIC_SHOW_LEADER_APPLICATIONS }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
