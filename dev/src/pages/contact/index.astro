@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import theme from '@hackclub/theme';
 
 const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
+const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout
@@ -99,8 +100,8 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
           <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Members Engaged</p>
         </div>
         <div class="text-center rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
-          <p class="text-3xl font-bold" style="color: var(--color-blue)">2</p>
-          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Events This Season</p>
+          <p class="text-3xl font-bold" style="color: var(--color-blue)">{events.length}</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Event{events.length !== 1 ? 's' : ''} This Season</p>
         </div>
       </div>
     </div>
