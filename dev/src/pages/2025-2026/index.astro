@@ -1,0 +1,250 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import theme from '@hackclub/theme';
+import bobaGirls from '../../assets/images/boba-girls.jpeg';
+import bobaBoys from '../../assets/images/boba-boys.jpeg';
+
+interface TimelineEntry {
+  kind: 'Workshop' | 'Event';
+  date: Date;
+  title: string;
+  body: string;
+  meta: string;
+  href: string;
+  figures: string[];
+}
+
+const events = (await getCollection('events')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const workshops = (await getCollection('workshops')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const timeline: TimelineEntry[] = [
+  ...workshops.map((entry) => {
+    const figures: string[] = [];
+    if (entry.data.participations) figures.push(`${entry.data.participations} participations`);
+    if (entry.data.approvedSubmissions) figures.push(`${entry.data.approvedSubmissions} approved submissions`);
+    if (entry.data.budgetSpent) figures.push(entry.data.budgetSpent);
+    if (entry.data.note) figures.push(entry.data.note);
+    return {
+      kind: 'Workshop' as const,
+      date: entry.data.date,
+      title: entry.data.title,
+      body: entry.data.outcome,
+      meta: entry.data.provider,
+      href: `/workshops/${entry.id.replace(/\.md$/, '')}/`,
+      figures
+    };
+  }),
+  ...events.map((entry) => ({
+    kind: 'Event' as const,
+    date: entry.data.date,
+    title: entry.data.title,
+    body: entry.data.outcome,
+    meta: entry.data.location,
+    href: `/events/${entry.id.replace(/\.md$/, '')}/`,
+    figures: []
+  }))
+].sort((a, b) => a.date.getTime() - b.date.getTime());
+
+const participations = workshops.reduce((sum, entry) => sum + (entry.data.participations ?? 0), 0);
+const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedSubmissions ?? 0), 0);
+---
+
+<BaseLayout
+  title="Season 5 (2025 – 2026) | Gharbiya STEM Hack Club"
+  description="A farewell to Season 5: every workshop and event Gharbiya STEM Hack Club ran between November 2025 and July 2026."
+  currentPath="/2025-2026"
+>
+  <!-- Hero Section -->
+  <section class="card mb-12">
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--accent)">// SEASON 5 · 2025 – 2026 · CLOSED</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('yellow', 'orange')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>The season is over. What you shipped isn't.</h1>
+    <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+      Twenty-fifth of November, 2025: stickers, a kickoff, and a login page with a hole in it for the red team
+      to exploit. The last night of the season ended on a ping pong table at a gaming cafe.
+    </p>
+    <p class="mt-3 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
+      This page is the record of the months in between — every workshop you joined, every event you walked into,
+      every project that got approved. Not a summary. A receipt.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn cta" href="#what-we-did">Read the whole season</a>
+      <a class="btn outline" href="#the-part-nobody-wears">Skip to the goodbye</a>
+    </div>
+  </section>
+
+  <!-- The Boba Workshop Photos -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">One workshop. Two tables.</h2>
+    <p class="mb-6 max-w-3xl text-slate-600 dark:text-slate-300">
+      The boba workshop was the loudest night of the season. Beginners, one afternoon, HTML and CSS, a personal
+      site pushed to GitHub, and $5 of boba waiting for everyone who finished. {submissions} submissions were
+      approved. These are the two groups that filled the room.
+    </p>
+    <div class="grid gap-6 sm:grid-cols-2">
+      <figure class="card">
+        <Image
+          src={bobaGirls}
+          alt="The girls' group working through the boba workshop together"
+          class="aspect-[4/3] w-full rounded-xl object-cover"
+          loading="lazy"
+        />
+        <figcaption class="mt-4">
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-white">The girls' table</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            One afternoon, a blank editor, and a brief most of them had never seen before: a personal site, five
+            real features, a live link. They shipped it and collected $5 of boba for the trouble.
+          </p>
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <Image
+          src={bobaBoys}
+          alt="The boys' group working through the boba workshop together"
+          class="aspect-[4/3] w-full rounded-xl object-cover"
+          loading="lazy"
+        />
+        <figcaption class="mt-4">
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-white">The boys' table</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            Same brief, same deadline, same $5 waiting at the end. This is the other half of the room that turned
+            36 approved submissions out of a single workshop session.
+          </p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Season in Numbers -->
+  <section class="mb-12">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">The season, in numbers</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="card text-center gradient-yellow-red">
+        <p class="text-4xl font-bold" style="color: var(--accent)">{timeline.length}</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Workshops and events</p>
+      </div>
+      <div class="card text-center">
+        <p class="text-4xl font-bold text-slate-900 dark:text-white">{participations}</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Participations logged</p>
+      </div>
+      <div class="card text-center">
+        <p class="text-4xl font-bold text-slate-900 dark:text-white">{submissions}</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Approved submissions</p>
+      </div>
+      <div class="card text-center">
+        <p class="text-4xl font-bold text-slate-900 dark:text-white">Level 3</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Club level reached</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Season, In Order -->
+  <section class="mb-12" id="what-we-did">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Everything that happened, in order</h2>
+    <p class="mb-6 max-w-3xl text-slate-600 dark:text-slate-300">
+      Kickoff to closing ceremony, no highlight reel and no re-writes. This is the season exactly as it ran.
+    </p>
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        timeline.map((entry) => (
+          <article class="card">
+            <div class="flex flex-wrap items-center gap-2">
+              <span
+                class:list={[
+                  'rounded-full border px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide',
+                  entry.kind === 'Workshop'
+                    ? 'border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300'
+                    : 'border-transparent text-white'
+                ]}
+                style={entry.kind === 'Event' ? 'background: var(--accent)' : ''}
+              >
+                {entry.kind}
+              </span>
+              <span class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                {entry.date.toLocaleDateString('en-GB')} · {entry.meta}
+              </span>
+            </div>
+            <h3 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{entry.title}</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{entry.body}</p>
+            {entry.figures.length > 0 && (
+              <div class="mt-3 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                {entry.figures.map((figure) => (
+                  <p class="flex items-start gap-1.5">
+                    <span aria-hidden="true" class="mt-[0.35em] h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                    <span>{figure}</span>
+                  </p>
+                ))}
+              </div>
+            )}
+            <div class="mt-4">
+              <a
+                class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity"
+                style="color: var(--accent)"
+                href={entry.href}
+              >
+                Read the details
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- The Farewell -->
+  <section class="mb-12" id="the-part-nobody-wears">
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">The part nobody puts on the badge</h2>
+    <div class="card gradient-red-orange">
+      <p class="text-lg text-slate-700 dark:text-slate-200">
+        Every season ends the same way. The forms close, the group chat goes quiet, and a folder full of websites
+        sits there unopened until somebody eventually says <em>remember when?</em>
+      </p>
+      <p class="mt-4 text-lg text-slate-700 dark:text-slate-200">So we are saying it now, while it still counts:</p>
+      <ul class="mt-4 space-y-3 text-slate-700 dark:text-slate-200">
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-xl leading-6">🥤</span>
+          <span>You learned HTML and CSS in a room with no teacher — just a leader, a link, and a deadline.</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-xl leading-6">🚫🎨</span>
+          <span>You were told no CSS was allowed, and you built something beautiful out of text anyway.</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-xl leading-6">🤖</span>
+          <span>You let an AI write the first draft, then opened the file and made it yours.</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-xl leading-6">🛡️</span>
+          <span>You sat through a red team lecture knowing that by the end of the season you would defend the thing instead.</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-xl leading-6">🏓</span>
+          <span>You played ping pong at a gaming cafe and let that count as a closing ceremony.</span>
+        </li>
+      </ul>
+      <p class="mt-6 text-lg font-semibold text-slate-900 dark:text-white">
+        That is Season 5. Not the Level 3 badge — the habit of showing up.
+      </p>
+      <p class="mt-3 text-slate-700 dark:text-slate-200">
+        Season 6 starts from an empty page. The people who came back twice this season are the only reason there
+        will be a Season 6 at all.
+      </p>
+    </div>
+  </section>
+
+  <!-- Season 6 CTA -->
+  <section>
+    <div class="card text-center gradient-yellow-red">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">The page is blank again</h2>
+      <p class="mt-3 text-slate-600 dark:text-slate-300">
+        Every season ends and the next one starts with the same line: who's coming? If you were part of Season 5
+        and you want to be in the first room of Season 6, this is where to say so.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow @gh_hackclub</a>
+        <a class="btn outline" href="/contact">Join Season 6</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
