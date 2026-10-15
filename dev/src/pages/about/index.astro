@@ -2,10 +2,32 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TeamGrid from '../../components/TeamGrid.astro';
+import {
+  SEASONS,
+  bySeason,
+  getCurrentSeason,
+  getShowcaseSeason,
+  isShowcaseSeasonArchived
+} from '../../lib/seasons';
 import theme from '@hackclub/theme';
 
-const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
-const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// Leadership is the current season; the numbers below come from SHOWCASE_SEASON.
+const currentSeason = getCurrentSeason();
+const showcaseSeason = getShowcaseSeason();
+const showcaseIsArchived = isShowcaseSeasonArchived();
+
+const allMembers = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const allEvents = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const allBootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
+
+// Leaders are whoever is running the club now.
+const team = bySeason(allMembers, currentSeason.number);
+const formerTeamCount = allMembers.length - team.length;
+
+// Achievements are what the showcased season actually shipped.
+const events = bySeason(allEvents, showcaseSeason.number);
+const bootcamps = bySeason(allBootcamps, showcaseSeason.number);
+const allTimeEvents = allEvents.length;
 ---
 
 <BaseLayout
@@ -40,11 +62,13 @@ const events = (await getCollection('events')).sort((a, b) => b.data.date.getTim
         </p>
       </div>
       <div class="card">
-        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Season 5 Progress</h3>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">{showcaseSeason.label} progress</h3>
         <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
-          We're currently at <strong>Level 3 (MAX)</strong> — the highest achievement tier. 
-          With {events.length} successful event{events.length !== 1 ? 's' : ''} already delivered and four major bootcamps running from February to June, 
-          we're building momentum and shipping real projects.
+          We're currently at <strong>Level 3 (MAX)</strong> — the highest achievement tier.
+          {showcaseSeason.label} delivered {bootcamps.length} bootcamps and {events.length} event{events.length !== 1 ? 's' : ''},
+          part of {allTimeEvents} run across every season.
+          {showcaseIsArchived && `${currentSeason.label} is now under way, led by the team below.`}
+          Every past season stays archived and readable at <a href="/seasons" style="color: var(--accent)">/seasons</a>.
         </p>
       </div>
     </div>
@@ -89,7 +113,14 @@ const events = (await getCollection('events')).sort((a, b) => b.data.date.getTim
 
   <!-- Team Section -->
   <section class="mb-12">
-    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Meet the Team</h2>
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white">{currentSeason.label} leaders</h2>
+      {formerTeamCount > 0 && (
+        <a href="/team#former-members" class="text-sm font-semibold transition-opacity hover:opacity-80" style="color: var(--accent)">
+          {showcaseSeason.label} leaders ({formerTeamCount})
+        </a>
+      )}
+    </div>
     <TeamGrid team={team} />
     <div class="mt-6 text-center">
       <a href="/team" class="btn outline">View full team →</a>
@@ -106,15 +137,17 @@ const events = (await getCollection('events')).sort((a, b) => b.data.date.getTim
       </div>
       <div class="card text-center">
         <p class="text-4xl font-bold" style="color: var(--color-orange)">{events.length}</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Event{events.length !== 1 ? 's' : ''} Delivered</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{showcaseSeason.label} events</p>
       </div>
       <div class="card text-center">
         <p class="text-4xl font-bold" style="color: var(--color-green)">{team.length}</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Team Members</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          {currentSeason.label} Team
+        </p>
       </div>
       <div class="card text-center">
-        <p class="text-4xl font-bold" style="color: var(--color-blue)">5</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Seasons Running</p>
+        <p class="text-4xl font-bold" style="color: var(--color-blue)">{SEASONS.length}</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Seasons on record</p>
       </div>
     </div>
   </section>

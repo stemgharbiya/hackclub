@@ -1,0 +1,342 @@
+// AUTO-GENERATED — do not edit by hand.
+// Source: dev/src/pages/join-team/questions.json
+// Regenerate with: npm run worker:questions
+export const QUESTION_DATA = {
+  "committees": [
+    "PR",
+    "HR",
+    "Marketing & Social Media",
+    "Organizing Committee",
+    "Tech / IT",
+    "Academics"
+  ],
+  "academicTracks": [
+    "Cyber Security",
+    "Web Development",
+    "Competitive Programming",
+    "Data Science"
+  ],
+  "committeeSets": {
+    "PR": {
+      "title": "Public Relations",
+      "description": "Tell us how you would talk to sponsors and grow our reach.",
+      "questions": [
+        {
+          "id": "pr_sponsor_outreach",
+          "label": "Have you ever reached out to a sponsor, company or organization? Tell us about it.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5,
+          "placeholder": "Who did you contact, how did you reach them, and what was the result?"
+        },
+        {
+          "id": "pr_sponsor_pitch",
+          "label": "Write a short message you would send to a company asking them to sponsor our hackathon.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5,
+          "placeholder": "Keep it the message you would actually send."
+        },
+        {
+          "id": "pr_languages",
+          "label": "Which languages can you communicate in professionally?",
+          "kind": "text",
+          "required": true,
+          "placeholder": "English, Arabic, French…"
+        }
+      ],
+      "endLink": {
+        "id": "pr_link",
+        "label": "LinkedIn or any relevant link",
+        "placeholder": "https://linkedin.com/in/you",
+        "required": false
+      }
+    },
+    "HR": {
+      "title": "Human Resources",
+      "description": "Tell us how you would keep the club healthy and motivated.",
+      "questions": [
+        {
+          "id": "hr_engagement",
+          "label": "How would you keep members engaged and motivated throughout the year?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5,
+          "placeholder": "Rituals, recognitions, check-ins…"
+        },
+        {
+          "id": "hr_conflict",
+          "label": "Two members are in a conflict that is hurting the team. How would you handle it?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "hr_leadership",
+          "label": "Describe any experience you have organizing or leading people.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        }
+      ],
+      "endLink": {
+        "id": "hr_link",
+        "label": "Any relevant link",
+        "placeholder": "Portfolio, drive, LinkedIn…",
+        "required": false
+      }
+    },
+    "Marketing & Social Media": {
+      "title": "Marketing & Social Media",
+      "description": "Show us your eye for content and your creative toolkit.",
+      "questions": [
+        {
+          "id": "marketing_tools",
+          "label": "Which tools do you use? (Canva, Photoshop, Premiere, CapCut, Figma…)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "marketing_post_idea",
+          "label": "Pitch one post or reel idea to promote our next event.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "marketing_admired_account",
+          "label": "Which tech or student social media account do you admire, and why?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 4
+        },
+        {
+          "id": "marketing_hala_hany",
+          "label": "How much of Hala Hany are you?",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "marketing_phone",
+          "label": "What type of phone do you have?",
+          "kind": "text",
+          "required": true,
+          "placeholder": "iPhone 14, Galaxy A55…"
+        },
+        {
+          "id": "marketing_scroll_hours",
+          "label": "How many hours do you spend scrolling every day?",
+          "kind": "text",
+          "required": true,
+          "placeholder": "2, 3, 4…"
+        }
+      ],
+      "endLink": {
+        "id": "marketing_link",
+        "label": "Portfolio / Behance / Instagram",
+        "placeholder": "https://instagram.com/you",
+        "required": true
+      }
+    },
+    "Organizing Committee": {
+      "title": "Organizing Committee",
+      "description": "Tell us how you run events and handle the unexpected.",
+      "questions": [
+        {
+          "id": "organizing_event_experience",
+          "label": "Have you helped organize an event before? What was your role?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "organizing_speaker_cancels",
+          "label": "The speaker cancels one hour before the event. What do you do?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "organizing_hours",
+          "label": "How many hours per week can you commit, especially near events?",
+          "kind": "text",
+          "required": true,
+          "placeholder": "5, 10, 15…"
+        }
+      ],
+      "endLink": {
+        "id": "organizing_link",
+        "label": "Any relevant link",
+        "placeholder": "Drive, portfolio, LinkedIn…",
+        "required": false
+      }
+    },
+    "Tech / IT": {
+      "title": "Tech / IT",
+      "description": "Tell us about the stack you have shipped and how you debug under pressure.",
+      "questions": [
+        {
+          "id": "tech_stack",
+          "label": "Which web technologies and tools have you used? (HTML/CSS, React, Git, hosting…)",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "tech_website_features",
+          "label": "What features would you add to our club website, and why?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "tech_site_down",
+          "label": "The website goes down the night before an event. Walk us through how you would fix it.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 6
+        }
+      ],
+      "endLink": {
+        "id": "tech_link",
+        "label": "GitHub or a website you built",
+        "placeholder": "https://github.com/you",
+        "required": true
+      }
+    }
+  },
+  "academicTrackSets": {
+    "Cyber Security": {
+      "title": "Academics — Cyber Security",
+      "description": "Tell us what you have broken, analysed, and secured.",
+      "questions": [
+        {
+          "id": "cs_security_topics",
+          "label": "Which security topics or tools have you worked with? (Linux, Wireshark, Burp…)",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "cs_ctf_experience",
+          "label": "Have you played any CTFs? Which ones, and how did they go?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "cs_vulnerability",
+          "label": "Explain a vulnerability (e.g. SQL injection or XSS) in simple words.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        }
+      ],
+      "endLink": {
+        "id": "cs_link",
+        "label": "CTF profile / GitHub / TryHackMe",
+        "placeholder": "https://tryhackme.com/p/you",
+        "required": true
+      }
+    },
+    "Web Development": {
+      "title": "Academics — Web Development",
+      "description": "Tell us what you have built and how much time you can give the club.",
+      "questions": [
+        {
+          "id": "wd_languages",
+          "label": "Which languages and frameworks have you used?",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "wd_proud_project",
+          "label": "Describe the project you are most proud of and your part in it.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "wd_hours",
+          "label": "How many hours can you dedicate to the team?",
+          "kind": "text",
+          "required": true,
+          "placeholder": "5, 10, 15…"
+        }
+      ],
+      "endLink": {
+        "id": "wd_link",
+        "label": "A project you built (GitHub / live site)",
+        "placeholder": "https://github.com/you/project",
+        "required": true
+      }
+    },
+    "Competitive Programming": {
+      "title": "Academics — Competitive Programming",
+      "description": "Tell us where you compete and how you think about problems.",
+      "questions": [
+        {
+          "id": "cp_language_rating",
+          "label": "Which language do you compete in, and what is your current rating?",
+          "kind": "text",
+          "required": true,
+          "placeholder": "C++, 1800 on Codeforces"
+        },
+        {
+          "id": "cp_contests",
+          "label": "Which contests have you joined? (ECPC, ICPC, IOI, online rounds…)",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "cp_problem",
+          "label": "Explain a problem you solved recently and the idea behind your solution.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        }
+      ],
+      "endLink": {
+        "id": "cp_link",
+        "label": "Codeforces / LeetCode / AtCoder profile",
+        "placeholder": "https://codeforces.com/profile/you",
+        "required": true
+      }
+    },
+    "Data Science": {
+      "title": "Academics — Data Science",
+      "description": "Tell us about the data you have worked with and what you found.",
+      "questions": [
+        {
+          "id": "ds_tools",
+          "label": "Which tools and libraries have you used? (Python, pandas, scikit-learn, SQL…)",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "ds_project",
+          "label": "Describe a data project you worked on: the data, the question, the result.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        },
+        {
+          "id": "ds_overfitting",
+          "label": "Explain overfitting to someone who has never heard of it.",
+          "kind": "textarea",
+          "required": true,
+          "rows": 5
+        }
+      ],
+      "endLink": {
+        "id": "ds_link",
+        "label": "GitHub / Kaggle profile",
+        "placeholder": "https://kaggle.com/you",
+        "required": true
+      }
+    }
+  }
+};

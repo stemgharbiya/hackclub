@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import { SEASONS, getCurrentSeason } from '../lib/seasons';
 
 interface Props {
   currentPath: string;
@@ -7,6 +8,10 @@ interface Props {
 
 const { currentPath } = Astro.props as Props;
 
+const currentSeason = getCurrentSeason();
+
+// The season sits in its own dropdown rather than taking a flat nav slot, so
+// the number of nav items never grows as seasons are added.
 const links = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
@@ -15,9 +20,10 @@ const links = [
   { href: '/workshops', label: 'Workshops' },
   { href: '/team', label: 'Team' },
   { href: '/contact', label: 'Contact' },
-  { href: '/apply', label: 'Apply' },
-  { href: '/2025-2026', label: 'Season 5' }
+  { href: '/join-team', label: 'Join' }
 ];
+
+const isSeasonActive = SEASONS.some((season) => `/${season.slug}` === currentPath);
 ---
 
 <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/90">
@@ -43,6 +49,88 @@ const links = [
           </a>
         ))
       }
+
+      <!-- Season dropdown: current season first, past seasons archived -->
+      <div class="relative" data-season-menu>
+        <button
+          type="button"
+          class:list={[
+            'flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+            isSeasonActive
+              ? 'text-white dark:text-slate-900'
+              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+          ]}
+          style={isSeasonActive ? 'background: var(--accent)' : ''}
+          data-season-toggle
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-controls="season-dropdown"
+        >
+          <span>{currentSeason.label}</span>
+          <svg
+            data-season-chevron
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 transition-transform duration-200"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+
+        <div
+          id="season-dropdown"
+          data-season-dropdown
+          class="invisible absolute right-0 top-full z-50 mt-2 w-64 origin-top-right scale-95 opacity-0 transition-all duration-150"
+        >
+          <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
+            <ul class="p-1.5" role="menu">
+              {
+                SEASONS.map((season) => (
+                  <li role="none">
+                    <a
+                      href={`/${season.slug}`}
+                      role="menuitem"
+                      data-season-link
+                      class:list={[
+                        'flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 transition-colors',
+                        `/${season.slug}` === currentPath
+                          ? 'bg-slate-100 dark:bg-slate-800'
+                          : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                      ]}
+                    >
+                      <span class="min-w-0">
+                        <span class="block text-sm font-semibold text-slate-900 dark:text-white">
+                          {season.label}
+                        </span>
+                        <span class="block text-xs text-slate-500 dark:text-slate-400">{season.years}</span>
+                      </span>
+                      {season.status === 'current' ? (
+                        <span class="pill shrink-0">Live</span>
+                      ) : (
+                        <span class="outline-badge shrink-0">Archived</span>
+                      )}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="border-t border-slate-200 p-1.5 dark:border-slate-700">
+              <a
+                href="/seasons"
+                role="menuitem"
+                class="block rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+                style="color: var(--accent)"
+              >
+                Browse all seasons →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
     <div class="flex items-center gap-2">
       <button
@@ -114,6 +202,53 @@ const links = [
           </a>
         ))
       }
+
+      <!-- Mobile season picker: always expanded, no hover to rely on -->
+      <div class="mt-1 border-t border-slate-200 pt-4 dark:border-slate-700">
+        <p class="px-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+          Seasons
+        </p>
+        <ul class="mt-3 flex flex-col gap-2">
+          {
+            SEASONS.map((season) => (
+              <li>
+                <a
+                  href={`/${season.slug}`}
+                  data-menu-link
+                  class:list={[
+                    'flex items-center justify-between gap-3 rounded-xl px-4 py-3 transition-colors',
+                    `/${season.slug}` === currentPath
+                      ? 'bg-slate-100 dark:bg-slate-900'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
+                  ]}
+                >
+                  <span class="min-w-0">
+                    <span class="block text-base font-semibold text-slate-900 dark:text-white">
+                      {season.label}
+                    </span>
+                    <span class="block text-xs text-slate-500 dark:text-slate-400">{season.years}</span>
+                  </span>
+                  {season.status === 'current' ? (
+                    <span class="pill shrink-0">Live</span>
+                  ) : (
+                    <span class="outline-badge shrink-0">Archived</span>
+                  )}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href="/seasons"
+              data-menu-link
+              class="block rounded-xl px-4 py-3 text-base font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+              style="color: var(--accent)"
+            >
+              Browse all seasons →
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
   </div>
 </div>
@@ -196,5 +331,52 @@ const links = [
     } else {
       desktopMediaQuery.addListener(closeOnDesktop);
     }
+  }
+
+  // --- Season dropdown (desktop only) ---
+  const seasonMenu = document.querySelector('[data-season-menu]');
+  const seasonToggle = document.querySelector('[data-season-toggle]');
+  const seasonDropdown = document.querySelector('[data-season-dropdown]');
+  const seasonChevron = document.querySelector('[data-season-chevron]');
+
+  if (seasonMenu && seasonToggle && seasonDropdown) {
+    const setSeasonOpen = (isOpen) => {
+      seasonToggle.setAttribute('aria-expanded', String(isOpen));
+      seasonDropdown.classList.toggle('invisible', !isOpen);
+      seasonDropdown.classList.toggle('opacity-0', !isOpen);
+      seasonDropdown.classList.toggle('scale-95', !isOpen);
+      seasonDropdown.classList.toggle('visible', isOpen);
+      seasonDropdown.classList.toggle('opacity-100', isOpen);
+      seasonDropdown.classList.toggle('scale-100', isOpen);
+      if (seasonChevron) seasonChevron.classList.toggle('rotate-180', isOpen);
+    };
+
+    const closeSeason = () => setSeasonOpen(false);
+
+    seasonToggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setSeasonOpen(seasonToggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Hover opens it on desktop; the click handler covers keyboard and touch.
+    seasonMenu.addEventListener('mouseenter', () => setSeasonOpen(true));
+    seasonMenu.addEventListener('mouseleave', closeSeason);
+
+    seasonMenu.addEventListener('focusout', (event) => {
+      if (!seasonMenu.contains(event.relatedTarget)) closeSeason();
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!seasonMenu.contains(event.target)) closeSeason();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeSeason();
+    });
+
+    // Do not leave a hidden panel holding focus after resizing down to mobile.
+    desktopMediaQuery.addEventListener('change', (event) => {
+      if (event.matches) closeSeason();
+    });
   }
 </script>

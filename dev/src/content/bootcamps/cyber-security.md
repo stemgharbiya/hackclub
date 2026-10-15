@@ -1,6 +1,7 @@
 ---
 title: Cyber Security
 period: February – June
+season: 5
 level: Beginner to Intermediate
 order: 3
 mentorTrack: Network security, ethical hacking basics, and security mindset

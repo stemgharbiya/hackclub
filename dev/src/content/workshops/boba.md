@@ -1,6 +1,7 @@
 ---
 title: Boba Workshop
 date: 2026-02-23
+season: 5
 provider: Hack Club
 outcome: Members shipped creative boba and food-themed projects with team collaboration.
 approvedSubmissions: 36

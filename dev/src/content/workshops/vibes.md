@@ -1,6 +1,7 @@
 ---
 title: Vibes Workshop
 date: 2026-04-03
+season: 5
 provider: Hack Club
 outcome: Members built AI-assisted websites through the Vibes YSWS, edited code for styling and content, and earned a pizza party for the club.
 note: $65 income generated for the club from this workshop.

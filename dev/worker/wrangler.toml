@@ -1,0 +1,8 @@
+name = "gharbiya-join-team"
+main = "src/index.js"
+compatibility_date = "2026-10-10"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gharbiya-join-team"
+database_id = "88b1a08d-9bcc-4ac0-9871-6245f516f069"

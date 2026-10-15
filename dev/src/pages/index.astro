@@ -5,11 +5,30 @@ import BootcampCards from '../components/BootcampCards.astro';
 import EventCards from '../components/EventCards.astro';
 import TeamGrid from '../components/TeamGrid.astro';
 import FAQList from '../components/FAQList.astro';
+import {
+  CURRENT_SEASON,
+  bySeason,
+  getCurrentSeason,
+  getShowcaseSeason,
+  isShowcaseSeasonArchived
+} from '../lib/seasons';
 import theme from '@hackclub/theme';
 
-const bootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
-const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+// Leadership is Season 6. Achievements shown below come from SHOWCASE_SEASON.
+const currentSeason = getCurrentSeason();
+const showcaseSeason = getShowcaseSeason();
+const showcaseIsArchived = isShowcaseSeasonArchived();
+
+const allBootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
+const allEvents = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const bootcamps = bySeason(allBootcamps, showcaseSeason.number);
+const events = bySeason(allEvents, showcaseSeason.number).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const allMembers = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const team = bySeason(allMembers, CURRENT_SEASON);
 const featuredTeam = team.filter((member) => member.data.featured).length > 0 ? team.filter((member) => member.data.featured) : team.slice(0, 4);
 const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -20,34 +39,44 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   currentPath="/"
 >
   <section class="card mb-10">
-    <p class="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">Season 5 · Level 3 (MAX)</p>
+    <p class="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">{currentSeason.label} · {currentSeason.years} · In progress</p>
     <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('orange', 'red')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Gharbiya STEM Hack Club</h1>
     <p class="mt-4 max-w-3xl text-base text-slate-600 dark:text-slate-300">
       Building makers through high-impact bootcamps in Data Science, Web Development, Cyber Security, and Competitive Programming from February to June.
     </p>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn cta" href="/apply">Apply now</a>
-      <a class="btn outline" href="/bootcamps">Explore bootcamps</a>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <a class="btn cta justify-center sm:justify-start" href="/join-team">Apply now</a>
+      <a class="btn outline justify-center sm:justify-start" href="/bootcamps">Explore bootcamps</a>
     </div>
-    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+    <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
       <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
-        <p class="text-2xl font-bold text-slate-900 dark:text-white">4</p>
+        <p class="text-2xl font-bold text-slate-900 dark:text-white">{bootcamps.length}</p>
         <p class="text-sm text-slate-600 dark:text-slate-300">Major bootcamps</p>
       </div>
       <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
         <p class="text-2xl font-bold text-slate-900 dark:text-white">{events.length}</p>
-        <p class="text-sm text-slate-600 dark:text-slate-300">Successful event{events.length !== 1 ? 's' : ''} so far</p>
+        <p class="text-sm text-slate-600 dark:text-slate-300">Events</p>
       </div>
-      <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
-        <p class="text-2xl font-bold text-slate-900 dark:text-white">5th</p>
+      <div class="col-span-2 rounded-xl border border-slate-200 p-4 sm:col-span-1 dark:border-slate-800">
+        <p class="text-2xl font-bold text-slate-900 dark:text-white">{currentSeason.number}th</p>
         <p class="text-sm text-slate-600 dark:text-slate-300">Current season</p>
       </div>
     </div>
+    {
+      showcaseIsArchived && (
+        <p class="mt-6 text-sm text-slate-600 dark:text-slate-300">
+          Led by the {currentSeason.label} team, showing what {showcaseSeason.label} shipped. Every season is archived
+          at <a href="/seasons" style="color: var(--accent)">/seasons</a>.
+        </p>
+      )
+    }
   </section>
 
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Bootcamps (Feb–Jun)</h2>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+        {showcaseSeason.label} bootcamps (Feb–Jun)
+      </h2>
       <a href="/bootcamps" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">View all</a>
     </div>
     <BootcampCards bootcamps={bootcamps} />
@@ -55,7 +84,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
 
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Recent Events</h2>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{showcaseSeason.label} events</h2>
       <a href="/events" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">View all</a>
     </div>
     <EventCards events={events.slice(0, 2)} />
@@ -63,7 +92,10 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
 
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Team</h2>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{currentSeason.label} leaders</h2>
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">The team running the club right now.</p>
+      </div>
       <a href="/team" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">Meet everyone</a>
     </div>
     <TeamGrid team={featuredTeam} />

@@ -8,7 +8,10 @@ const team = defineCollection({
       role: z.string(),
       committee: z.string(),
       order: z.number().int().nonnegative(),
-      photo: image(),
+      // Season the member served on. Past teams stay readable on their season page.
+      season: z.number().int().positive(),
+      // Optional so a member can be added before a photo exists.
+      photo: image().optional(),
       github: z.string().url().optional(),
       instagram: z.string().url().optional(),
       featured: z.boolean().default(false)
@@ -37,6 +40,7 @@ const bootcamps = defineCollection({
     level: z.string(),
     order: z.number().int().nonnegative(),
     mentorTrack: z.string(),
+    season: z.number().int().positive(),
     featured: z.boolean().default(true)
   })
 });
@@ -46,6 +50,7 @@ const workshops = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    season: z.number().int().positive(),
     provider: z.string(),
     outcome: z.string(),
     description: z.string().optional(),

@@ -3,6 +3,7 @@ name: Ahmed Tamer
 role: Club Co-Leader
 committee: Leadership
 order: 2
+season: 5
 photo: ../../assets/images/team/ahmed-tamer_club_coleader.jpg
 github: https://github.com/hack-club-gh
 instagram: https://www.instagram.com/gh_hackclub/

@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeasonArchive from '../../components/SeasonArchive.astro';
+import TeamGrid from '../../components/TeamGrid.astro';
+import { bySeason, getSeason } from '../../lib/seasons';
+import theme from '@hackclub/theme';
+
+const season = getSeason(6);
+
+if (!season) {
+  throw new Error('Season 6 is missing from SEASONS in src/lib/seasons.ts');
+}
+
+const seasonTeam = bySeason((await getCollection('team')).sort((a, b) => a.data.order - b.data.order), season.number);
+---
+
+<BaseLayout
+  title="Season 6 (2026 – 2027) | Gharbiya STEM Hack Club"
+  description="The current season at Gharbiya STEM Hack Club: bootcamps, workshops, and events as they happen."
+  currentPath="/2026-2027"
+>
+  <section class="card mb-12 overflow-hidden gradient-red-orange">
+    <p class="text-sm font-semibold uppercase tracking-wide text-[var(--red)]">
+      // {season.label.toUpperCase()} · {season.years} · IN PROGRESS
+    </p>
+    <h1
+      class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl"
+      style={`background-image: ${theme.util.gx(...season.gradient)}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}
+    >
+      The page is blank again.
+    </h1>
+    <p class="mt-4 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+      Season 6 is the current one. Season 5 is finished and archived, not deleted — every workshop it ran and every
+      project it shipped is still on the site at <a href="/2025-2026">/2025-2026</a>.
+    </p>
+    <p class="mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+      This page fills up on its own as workshops and events are scheduled. Nothing here needs editing by hand when the
+      calendar changes.
+    </p>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <a class="btn cta justify-center sm:justify-start" href="#timeline">See what is on</a>
+      <a class="btn outline justify-center sm:justify-start" href="/join-team">Join the team</a>
+    </div>
+  </section>
+
+  <SeasonArchive season={season} />
+
+  <!-- Who is running this season -->
+  {
+    seasonTeam.length > 0 && (
+      <section class="mb-12 mt-12">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">// THE TEAM</p>
+            <h2 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">Who is running {season.label}</h2>
+          </div>
+          <a class="btn outline" href="/team">Full team page</a>
+        </div>
+        <TeamGrid team={seasonTeam} />
+      </section>
+    )
+  }
+</BaseLayout>

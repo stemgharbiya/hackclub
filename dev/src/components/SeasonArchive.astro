@@ -1,0 +1,171 @@
+---
+import { getCollection } from 'astro:content';
+import { bySeason, getArchivedSeasons, getCurrentSeason, type Season } from '../lib/seasons';
+
+interface Props {
+  /** Season to render. Defaults to the current one. */
+  season?: Season;
+}
+
+const { season = getCurrentSeason() } = Astro.props;
+
+const [allEvents, allWorkshops] = await Promise.all([
+  getCollection('events'),
+  getCollection('workshops')
+]);
+
+const events = bySeason(allEvents, season.number);
+const workshops = bySeason(allWorkshops, season.number);
+
+const participations = workshops.reduce((sum, entry) => sum + (entry.data.participations ?? 0), 0);
+const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedSubmissions ?? 0), 0);
+
+const timeline = [
+  ...workshops.map((entry) => ({
+    kind: 'Workshop' as const,
+    date: entry.data.date,
+    title: entry.data.title,
+    body: entry.data.outcome,
+    meta: entry.data.provider,
+    href: `/workshops/${entry.id.replace(/\.md$/, '')}/`,
+    figures: [
+      entry.data.participations ? `${entry.data.participations} participations` : null,
+      entry.data.approvedSubmissions ? `${entry.data.approvedSubmissions} approved submissions` : null,
+      entry.data.budgetSpent ?? null,
+      entry.data.note ?? null
+    ].filter((figure): figure is string => Boolean(figure))
+  })),
+  ...events.map((entry) => ({
+    kind: 'Event' as const,
+    date: entry.data.date,
+    title: entry.data.title,
+    body: entry.data.outcome,
+    meta: entry.data.location,
+    href: `/events/${entry.id.replace(/\.md$/, '')}/`,
+    figures: []
+  }))
+].sort((a, b) => a.date.getTime() - b.date.getTime());
+
+const isEmpty = timeline.length === 0;
+const nextSeason = getArchivedSeasons().find((entry) => entry.number === season.number - 1);
+---
+
+<!-- Season status banner -->
+<section class="mb-12">
+  <div class="card">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="pill">{season.label}</span>
+      <span class="outline-badge">{season.years}</span>
+      {
+        season.status === 'current' ? (
+          <span class="pill">In progress</span>
+        ) : (
+          <span class="outline-badge">Archived</span>
+        )
+      }
+    </div>
+    <p class="mt-4 text-sm text-slate-600 dark:text-slate-300">
+      {season.period}. {season.summary}
+    </p>
+  </div>
+</section>
+
+<!-- Numbers -->
+<section class="mb-12">
+  <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">{season.label}, in numbers</h2>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="card text-center">
+      <p class="text-4xl font-bold" style="color: var(--accent)">{timeline.length}</p>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Workshops and events</p>
+    </div>
+    <div class="card text-center">
+      <p class="text-4xl font-bold text-slate-900 dark:text-white">{participations}</p>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Participations logged</p>
+    </div>
+    <div class="card text-center">
+      <p class="text-4xl font-bold text-slate-900 dark:text-white">{submissions}</p>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Approved submissions</p>
+    </div>
+    <div class="card text-center">
+      <p class="text-4xl font-bold text-slate-900 dark:text-white">{season.number}</p>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Season number</p>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="mb-12" id="timeline">
+  <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Everything that happened, in order</h2>
+
+  {
+    isEmpty ? (
+      <div class="card text-center">
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Nothing on the calendar yet.</h3>
+        <p class="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+          This season has just started. Workshops and events appear here as they are scheduled, tagged with the season
+          number so past seasons stay untouched.
+        </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <a class="btn cta" href="/join-team">Join the team</a>
+          <a class="btn outline" href="/contact">Get notified</a>
+        </div>
+      </div>
+    ) : (
+      <div class="grid gap-6 md:grid-cols-2">
+        {timeline.map((entry) => (
+          <article class="card">
+            <div class="flex flex-wrap items-center gap-2">
+              {entry.kind === 'Workshop' ? (
+                <span class="outline-badge">Workshop</span>
+              ) : (
+                <span class="pill">Event</span>
+              )}
+              <span class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                {entry.date.toLocaleDateString('en-GB')} · {entry.meta}
+              </span>
+            </div>
+            <h3 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{entry.title}</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{entry.body}</p>
+            {entry.figures.length > 0 && (
+              <div class="mt-3 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                {entry.figures.map((figure) => (
+                  <p class="flex items-start gap-1.5">
+                    <span aria-hidden="true" class="mt-[0.35em] h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                    <span>{figure}</span>
+                  </p>
+                ))}
+              </div>
+            )}
+            <div class="mt-4">
+              <a
+                class="inline-flex text-sm font-semibold transition-opacity hover:opacity-80"
+                style="color: var(--accent)"
+                href={entry.href}
+              >
+                Read the details
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    )
+  }
+</section>
+
+<!-- Season navigation -->
+<section>
+  <div class="card gradient-purple-blue">
+    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+      {nextSeason ? `${nextSeason.label} is still here` : 'Every season gets an archive'}
+    </h2>
+    <p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+      {nextSeason
+        ? `${nextSeason.label} was archived rather than deleted. Its workshops, events, and numbers are all still on the site.`
+        : 'Closed seasons stay readable forever. Nothing gets deleted when a new one starts.'}
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn outline" href="/seasons">Browse all seasons</a>
+      <a class="btn cta" href="/join-team">Join {season.label}</a>
+    </div>
+  </div>
+</section>

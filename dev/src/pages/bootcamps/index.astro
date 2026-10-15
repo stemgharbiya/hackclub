@@ -2,23 +2,36 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BootcampCards from '../../components/BootcampCards.astro';
+import {
+  bySeason,
+  getCurrentSeason,
+  getShowcaseSeason,
+  isShowcaseSeasonArchived
+} from '../../lib/seasons';
 import theme from '@hackclub/theme';
 
-const bootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
+// Leadership is the current season; the tracks shown come from SHOWCASE_SEASON.
+const currentSeason = getCurrentSeason();
+const showcaseSeason = getShowcaseSeason();
+const showcaseIsArchived = isShowcaseSeasonArchived();
+
+const allBootcamps = (await getCollection('bootcamps')).sort((a, b) => a.data.order - b.data.order);
+const bootcamps = bySeason(allBootcamps, showcaseSeason.number);
+const archivedCount = allBootcamps.length - bootcamps.length;
 const featuredBootcamp = bootcamps[0]; // Web Development is first
 ---
 
 <BaseLayout
   title="Bootcamps | Gharbiya STEM Hack Club"
-  description="Explore the four major bootcamps running from February to June."
+  description={`Explore the major bootcamps the club has run, plus what is planned for ${currentSeason.label}.`}
   currentPath="/bootcamps"
 >
   <!-- Hero Section -->
   <section class="card mb-12">
-    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-orange)">// LEARN BY BUILDING</p>
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-orange)">// LEARN BY BUILDING · {showcaseSeason.label.toUpperCase()}</p>
     <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('red', 'orange')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Master new skills every month.</h1>
-    <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
-      Four focused training tracks designed to build practical skills from February to June. 
+    <p class="mt-4 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+      Focused training tracks designed to build practical skills from February to June.
       Each bootcamp combines hands-on projects, expert mentorship, and real-world applications.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
@@ -28,42 +41,70 @@ const featuredBootcamp = bootcamps[0]; // Web Development is first
   </section>
 
   <!-- Featured Bootcamp Spotlight -->
-  <section class="mb-12">
-    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Featured Track</h2>
-    <div class="card gradient-red-orange">
-      <div class="grid gap-8 md:grid-cols-2">
-        <div>
-          <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.title}</h3>
-          <p class="mt-2 text-sm font-medium" style="color: var(--accent)">{featuredBootcamp.data.period} · {featuredBootcamp.data.level}</p>
-          <p class="mt-4 text-slate-600 dark:text-slate-300">{featuredBootcamp.body}</p>
-          <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">
-            <strong>Track focus:</strong> {featuredBootcamp.data.mentorTrack}
-          </p>
-        </div>
-        <div class="flex items-center justify-center">
-          <div class="grid grid-cols-2 gap-4">
-            <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
-              <p class="text-xs text-slate-500 dark:text-slate-400">Duration</p>
-              <p class="text-lg font-bold text-slate-900 dark:text-white">5 months</p>
+  {
+    featuredBootcamp && (
+      <section class="mb-12">
+        <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Featured Track</h2>
+        <div class="card gradient-red-orange">
+          <div class="grid gap-8 md:grid-cols-2">
+            <div>
+              <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.title}</h3>
+              <p class="mt-2 text-sm font-medium" style="color: var(--accent)">
+                {featuredBootcamp.data.period} · {featuredBootcamp.data.level}
+              </p>
+              <p class="mt-4 text-slate-600 dark:text-slate-300">{featuredBootcamp.body}</p>
+              <p class="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">
+                <strong>Track focus:</strong> {featuredBootcamp.data.mentorTrack}
+              </p>
             </div>
-            <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
-              <p class="text-xs text-slate-500 dark:text-slate-400">Level</p>
-              <p class="text-lg font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.level}</p>
-            </div>
-            <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800 col-span-2">
-              <p class="text-xs text-slate-500 dark:text-slate-400">Period</p>
-              <p class="text-lg font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.period}</p>
+            <div class="flex items-center justify-center">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Duration</p>
+                  <p class="text-lg font-bold text-slate-900 dark:text-white">5 months</p>
+                </div>
+                <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Level</p>
+                  <p class="text-lg font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.level}</p>
+                </div>
+                <div class="rounded-xl bg-slate-100 p-4 col-span-2 dark:bg-slate-800">
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Period</p>
+                  <p class="text-lg font-bold text-slate-900 dark:text-white">{featuredBootcamp.data.period}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
+    )
+  }
 
   <!-- All Bootcamps Grid -->
   <section class="mb-12" id="all-bootcamps">
-    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">All Bootcamp Tracks</h2>
-    <BootcampCards bootcamps={bootcamps} />
+    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">
+      {showcaseSeason.label} Bootcamp Tracks
+    </h2>
+    {
+      bootcamps.length > 0 ? (
+        <BootcampCards bootcamps={bootcamps} />
+      ) : (
+        <div class="card text-center">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white">
+            {currentSeason.label} tracks are not announced yet.
+          </h3>
+          <p class="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+            Bootcamps run February to June, so {currentSeason.label} tracks are not announced yet. The tracks below
+            are the most recent ones, from {showcaseSeason.label}.
+          </p>
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a class="btn cta" href="/join-team">Get notified</a>
+            {archivedCount > 0 && (
+              <a class="btn outline" href="/2025-2026">See last season's tracks</a>
+            )}
+          </div>
+        </div>
+      )
+    }
   </section>
 
   <!-- Technologies Covered -->

@@ -1,6 +1,7 @@
 ---
 title: Competitive Programming
 period: February – June
+season: 5
 level: Intermediate
 order: 4
 mentorTrack: Problem solving, algorithms, and contest strategy
