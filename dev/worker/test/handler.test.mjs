@@ -80,15 +80,27 @@ function makeEnv(options = {}) {
   };
 }
 
-/** Turnsstile siteverify mock. */
+const SITEVERIFY_HOST = 'challenges.cloudflare.com';
+const SITEVERIFY_PATH = '/turnstile/v0/siteverify';
+
+/**
+ * Turnsstile siteverify mock.
+ *
+ * Matches on the parsed hostname and path rather than a substring, so a URL
+ * like https://evil.example/challenges.cloudflare.com cannot satisfy it.
+ */
 function stubSiteverify(behaviour) {
   const original = globalThis.fetch;
+
   globalThis.fetch = async (url, init) => {
-    if (String(url).includes('challenges.cloudflare.com')) {
+    const parsed = new URL(String(url));
+
+    if (parsed.hostname === SITEVERIFY_HOST && parsed.pathname === SITEVERIFY_PATH) {
       return behaviour(JSON.parse(init.body));
     }
     throw new Error(`unexpected network call to ${url}`);
   };
+
   return () => {
     globalThis.fetch = original;
   };
@@ -332,6 +344,34 @@ test('allows the real site origin and refuses everything else', async () => {
       throw new Error(`origin was allowed: ${origin}`);
     }
   }
+});
+
+test('calls Cloudflare siteverify over HTTPS on the real host, and nothing else', async () => {
+  const { env, writes } = makeEnv();
+  const seen = [];
+  const original = globalThis.fetch;
+
+  globalThis.fetch = async (url) => {
+    const parsed = new URL(String(url));
+    seen.push(`${parsed.protocol}//${parsed.hostname}${parsed.pathname}`);
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+  };
+
+  try {
+    await call(postRequest({ ...VALID_PR, 'cf-turnstile-response': 't' }), env);
+  } finally {
+    globalThis.fetch = original;
+  }
+
+  if (seen.length !== 1) throw new Error(`expected 1 outbound call, got ${seen.length}`);
+  if (seen[0] !== `https://${SITEVERIFY_HOST}${SITEVERIFY_PATH}`) {
+    throw new Error(`unexpected outbound URL: ${seen[0]}`);
+  }
+  // A downgraded or lookalike host would be an SSRF-shaped mistake worth failing on.
+  if (!seen[0].startsWith(`https://${SITEVERIFY_HOST}/`)) {
+    throw new Error('siteverify must be called over TLS on the real Cloudflare host');
+  }
+  if (writes.length !== 1) throw new Error('application was not stored');
 });
 
 test('admin list requires a token', async () => {
