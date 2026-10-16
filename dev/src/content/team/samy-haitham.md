@@ -1,6 +1,6 @@
 ---
 name: Samy Haitham
-role: PR Member
+role: Public Relations Head
 committee: Public Relations
 order: 5
 season: 5
