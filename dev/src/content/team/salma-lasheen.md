@@ -4,7 +4,7 @@ role: Club Co-Leader
 committee: Leadership
 order: 2
 season: 6
-photo: ../../assets/images/team/salma.jpg
+photo: ../../assets/images/team/Salma.jpg
 featured: true
 ---
 
