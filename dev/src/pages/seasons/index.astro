@@ -17,6 +17,8 @@ const cards = SEASONS.map((season) => {
 
   return { season, events: events.length, workshops: workshops.length, participations, submissions };
 });
+
+const totalParticipations = cards.reduce((sum, card) => sum + card.participations, 0);
 ---
 
 <BaseLayout
@@ -83,11 +85,16 @@ const cards = SEASONS.map((season) => {
 
   <section>
     <div class="card gradient-red-orange">
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">How this works</h2>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Why the seasons stay separate</h2>
       <p class="mt-3 max-w-3xl text-slate-600 dark:text-slate-300">
-        Every workshop and event carries a season number in its frontmatter. Season pages read that number and show
-        only what belongs to them. When Season 7 starts, the only changes are a new entry in the season list and a new
-        page — Season 6 keeps its own numbers automatically, because nothing was ever counting them together.
+        A season is one run of the club — a start, a stretch of months, and an ending. We close each one out and keep
+        it exactly as it happened, because the workshops you joined and the rooms you filled are part of the club's
+        story, not a page we rewrite every year.
+      </p>
+      <p class="mt-3 max-w-3xl text-slate-600 dark:text-slate-300">
+        It also means the numbers mean something. The {totalParticipations} participations logged across these seasons
+        are what those seasons actually did, and they stay counted no matter what happens next. Every new season
+        starts its own count from zero.
       </p>
     </div>
   </section>

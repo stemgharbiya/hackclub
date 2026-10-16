@@ -65,7 +65,7 @@ const pastEvents = events.filter(e => e.data.date <= new Date());
       archivedCount > 0 && (
         <div class="card mt-6 flex flex-wrap items-center justify-between gap-4">
           <p class="text-sm text-slate-600 dark:text-slate-300">
-            {archivedCount} older event{archivedCount !== 1 ? 's are' : ' is'} kept in past season archives.
+            {archivedCount} older event{archivedCount !== 1 ? 's are' : ' is'} from previous seasons.
           </p>
           <a class="btn outline" href="/seasons">Browse all seasons</a>
         </div>
