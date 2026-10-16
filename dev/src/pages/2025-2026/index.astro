@@ -2,53 +2,20 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeasonArchive from '../../components/SeasonArchive.astro';
+import TeamGrid from '../../components/TeamGrid.astro';
+import { bySeason, getSeason } from '../../lib/seasons';
 import theme from '@hackclub/theme';
 import bobaGirls from '../../assets/images/boba-girls.jpeg';
 import bobaBoys from '../../assets/images/boba-boys.jpeg';
 
-interface TimelineEntry {
-  kind: 'Workshop' | 'Event';
-  date: Date;
-  title: string;
-  body: string;
-  meta: string;
-  href: string;
-  figures: string[];
+const season = getSeason(5);
+
+if (!season) {
+  throw new Error('Season 5 is missing from SEASONS in src/lib/seasons.ts');
 }
 
-const events = (await getCollection('events')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
-const workshops = (await getCollection('workshops')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
-
-const timeline: TimelineEntry[] = [
-  ...workshops.map((entry) => {
-    const figures: string[] = [];
-    if (entry.data.participations) figures.push(`${entry.data.participations} participations`);
-    if (entry.data.approvedSubmissions) figures.push(`${entry.data.approvedSubmissions} approved submissions`);
-    if (entry.data.budgetSpent) figures.push(entry.data.budgetSpent);
-    if (entry.data.note) figures.push(entry.data.note);
-    return {
-      kind: 'Workshop' as const,
-      date: entry.data.date,
-      title: entry.data.title,
-      body: entry.data.outcome,
-      meta: entry.data.provider,
-      href: `/workshops/${entry.id.replace(/\.md$/, '')}/`,
-      figures
-    };
-  }),
-  ...events.map((entry) => ({
-    kind: 'Event' as const,
-    date: entry.data.date,
-    title: entry.data.title,
-    body: entry.data.outcome,
-    meta: entry.data.location,
-    href: `/events/${entry.id.replace(/\.md$/, '')}/`,
-    figures: []
-  }))
-].sort((a, b) => a.date.getTime() - b.date.getTime());
-
-const participations = workshops.reduce((sum, entry) => sum + (entry.data.participations ?? 0), 0);
-const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedSubmissions ?? 0), 0);
+const seasonTeam = bySeason((await getCollection('team')).sort((a, b) => a.data.order - b.data.order), season.number);
 ---
 
 <BaseLayout
@@ -58,8 +25,8 @@ const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedS
 >
   <!-- Hero Section -->
   <section class="card mb-12">
-    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--accent)">// SEASON 5 · 2025 – 2026 · CLOSED</p>
-    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('yellow', 'orange')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>The season is over. What you shipped isn't.</h1>
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--accent)">// {season.label.toUpperCase()} · {season.years} · CLOSED</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx(...season.gradient)}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>The season is over. What you shipped isn't.</h1>
     <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
       Twenty-fifth of November, 2025: stickers, a kickoff, and a login page with a hole in it for the red team
       to exploit. The last night of the season ended on a ping pong table at a gaming cafe.
@@ -68,9 +35,9 @@ const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedS
       This page is the record of the months in between — every workshop you joined, every event you walked into,
       every project that got approved. Not a summary. A receipt.
     </p>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <a class="btn cta" href="#what-we-did">Read the whole season</a>
-      <a class="btn outline" href="#the-part-nobody-wears">Skip to the goodbye</a>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <a class="btn cta justify-center sm:justify-start" href="#what-we-did">Read the whole season</a>
+      <a class="btn outline justify-center sm:justify-start" href="#the-part-nobody-wears">Skip to the goodbye</a>
     </div>
   </section>
 
@@ -79,8 +46,8 @@ const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedS
     <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">One workshop. Two tables.</h2>
     <p class="mb-6 max-w-3xl text-slate-600 dark:text-slate-300">
       The boba workshop was the loudest night of the season. Beginners, one afternoon, HTML and CSS, a personal
-      site pushed to GitHub, and $5 of boba waiting for everyone who finished. {submissions} submissions were
-      approved. These are the two groups that filled the room.
+      site pushed to GitHub, and $5 of boba waiting for everyone who finished. These are the two groups that filled
+      the room.
     </p>
     <div class="grid gap-6 sm:grid-cols-2">
       <figure class="card">
@@ -116,81 +83,30 @@ const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedS
     </div>
   </section>
 
-  <!-- Season in Numbers -->
-  <section class="mb-12">
-    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">The season, in numbers</h2>
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="card text-center gradient-yellow-red">
-        <p class="text-4xl font-bold" style="color: var(--accent)">{timeline.length}</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Workshops and events</p>
-      </div>
-      <div class="card text-center">
-        <p class="text-4xl font-bold text-slate-900 dark:text-white">{participations}</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Participations logged</p>
-      </div>
-      <div class="card text-center">
-        <p class="text-4xl font-bold text-slate-900 dark:text-white">{submissions}</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Approved submissions</p>
-      </div>
-      <div class="card text-center">
-        <p class="text-4xl font-bold text-slate-900 dark:text-white">Level 3</p>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Club level reached</p>
-      </div>
-    </div>
-  </section>
+  <!-- Shared season data, stats, and timeline -->
+  <SeasonArchive season={season} />
 
-  <!-- The Season, In Order -->
-  <section class="mb-12" id="what-we-did">
-    <h2 class="mb-6 text-3xl font-bold text-slate-900 dark:text-white">Everything that happened, in order</h2>
-    <p class="mb-6 max-w-3xl text-slate-600 dark:text-slate-300">
-      Kickoff to closing ceremony, no highlight reel and no re-writes. This is the season exactly as it ran.
-    </p>
-    <div class="grid gap-6 md:grid-cols-2">
-      {
-        timeline.map((entry) => (
-          <article class="card">
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class:list={[
-                  'rounded-full border px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide',
-                  entry.kind === 'Workshop'
-                    ? 'border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300'
-                    : 'border-transparent text-white'
-                ]}
-                style={entry.kind === 'Event' ? 'background: var(--accent)' : ''}
-              >
-                {entry.kind}
-              </span>
-              <span class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                {entry.date.toLocaleDateString('en-GB')} · {entry.meta}
-              </span>
-            </div>
-            <h3 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{entry.title}</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{entry.body}</p>
-            {entry.figures.length > 0 && (
-              <div class="mt-3 space-y-1 text-xs text-slate-600 dark:text-slate-400">
-                {entry.figures.map((figure) => (
-                  <p class="flex items-start gap-1.5">
-                    <span aria-hidden="true" class="mt-[0.35em] h-1 w-1 flex-shrink-0 rounded-full bg-current" />
-                    <span>{figure}</span>
-                  </p>
-                ))}
-              </div>
-            )}
-            <div class="mt-4">
-              <a
-                class="inline-flex text-sm font-semibold hover:opacity-80 transition-opacity"
-                style="color: var(--accent)"
-                href={entry.href}
-              >
-                Read the details
-              </a>
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </section>
+
+  <!-- The Team That Ran Season 5 -->
+  {
+    seasonTeam.length > 0 && (
+      <section class="mb-12">
+        <div class="mb-6">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">// THE SEASON 5 TEAM</p>
+          <h2 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">Who ran this season</h2>
+          <p class="mt-2 max-w-3xl text-slate-600 dark:text-slate-300">
+            This is the team as it stood for Season 5. They have since handed over to the Season 6 team, and their
+            cards stay here with the rest of the season's record.
+          </p>
+        </div>
+        <TeamGrid team={seasonTeam} variant="former" />
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a class="btn outline" href="/team#former-members">All former members</a>
+          <a class="btn cta" href="/2026-2027">Meet the Season 6 team</a>
+        </div>
+      </section>
+    )
+  }
 
   <!-- The Farewell -->
   <section class="mb-12" id="the-part-nobody-wears">
@@ -227,8 +143,8 @@ const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedS
         That is Season 5. Not the Level 3 badge — the habit of showing up.
       </p>
       <p class="mt-3 text-slate-700 dark:text-slate-200">
-        Season 6 starts from an empty page. The people who came back twice this season are the only reason there
-        will be a Season 6 at all.
+        Season 6 started from an empty page. The people who came back twice this season are the only reason there
+        was a Season 6 at all.
       </p>
     </div>
   </section>
@@ -236,14 +152,14 @@ const submissions = workshops.reduce((sum, entry) => sum + (entry.data.approvedS
   <!-- Season 6 CTA -->
   <section>
     <div class="card text-center gradient-yellow-red">
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">The page is blank again</h2>
-      <p class="mt-3 text-slate-600 dark:text-slate-300">
-        Every season ends and the next one starts with the same line: who's coming? If you were part of Season 5
-        and you want to be in the first room of Season 6, this is where to say so.
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">Season 6 is already running</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+        Everything on this page stays exactly as it was. Season 6 has its own page with its own calendar, so the two
+        never get mixed up.
       </p>
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a class="btn cta" href="https://www.instagram.com/gh_hackclub/" target="_blank" rel="noreferrer">Follow @gh_hackclub</a>
-        <a class="btn outline" href="/contact">Join Season 6</a>
+      <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
+        <a class="btn cta justify-center sm:justify-start" href="/2026-2027">Go to Season 6</a>
+        <a class="btn outline justify-center sm:justify-start" href="/seasons">Browse all seasons</a>
       </div>
     </div>
   </section>

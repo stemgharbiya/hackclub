@@ -1,6 +1,7 @@
 ---
 title: Data Science
 period: February – June
+season: 5
 level: Beginner to Intermediate
 order: 1
 mentorTrack: Data analysis, visualization, and machine learning foundations

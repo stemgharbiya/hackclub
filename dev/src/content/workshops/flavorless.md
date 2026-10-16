@@ -1,6 +1,7 @@
 ---
 title: Flavorless Workshop
 date: 2026-03-03
+season: 5
 provider: Hack Club
 outcome: Strong community engagement with hands-on practical sessions and team projects.
 participations: 46

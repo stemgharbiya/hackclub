@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SEASONS, bySeason } from '../../lib/seasons';
+import theme from '@hackclub/theme';
+
+const [allEvents, allWorkshops] = await Promise.all([
+  getCollection('events'),
+  getCollection('workshops')
+]);
+
+const cards = SEASONS.map((season) => {
+  const events = bySeason(allEvents, season.number);
+  const workshops = bySeason(allWorkshops, season.number);
+  const participations = workshops.reduce((sum, e) => sum + (e.data.participations ?? 0), 0);
+  const submissions = workshops.reduce((sum, e) => sum + (e.data.approvedSubmissions ?? 0), 0);
+
+  return { season, events: events.length, workshops: workshops.length, participations, submissions };
+});
+
+const totalParticipations = cards.reduce((sum, card) => sum + card.participations, 0);
+---
+
+<BaseLayout
+  title="Seasons | Gharbiya STEM Hack Club"
+  description="Every season Gharbiya STEM Hack Club has run, from Season 1 onward."
+  currentPath="/seasons"
+>
+  <section class="card mb-12 overflow-hidden gradient-cyan-purple">
+    <p class="text-sm font-semibold uppercase tracking-wide text-[var(--accent)]">// THE RECORD</p>
+    <h1
+      class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl"
+      style={`background-image: ${theme.util.gx('cyan', 'purple')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}
+    >
+      Every season, kept.
+    </h1>
+    <p class="mt-4 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+      Seasons end. They do not get deleted. Each one keeps its workshops, its events, its numbers, and its numbers are
+      still the same numbers whether you are reading them a year later or today.
+    </p>
+  </section>
+
+  <section class="mb-12">
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        cards.map(({ season, events, workshops, participations, submissions }) => (
+          <article class="card flex flex-col">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="pill">{season.label}</span>
+              <span class="outline-badge">{season.years}</span>
+              {season.status === 'current' ? (
+                <span class="pill">In progress</span>
+              ) : (
+                <span class="outline-badge">Archived</span>
+              )}
+            </div>
+
+            <h2 class="mt-4 text-2xl font-bold text-slate-900 dark:text-white">{season.summary}</h2>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{season.period}</p>
+
+            <dl class="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              {[
+                { label: 'Events', value: events },
+                { label: 'Workshops', value: workshops },
+                { label: 'Participations', value: participations },
+                { label: 'Submissions', value: submissions }
+              ].map((stat) => (
+                <div class="min-w-0 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
+                  <dt class="text-xs leading-snug text-slate-500 dark:text-slate-400">{stat.label}</dt>
+                  <dd class="mt-1 text-xl font-bold text-slate-900 dark:text-white">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <div class="mt-6 pt-1">
+              <a class="btn outline w-full justify-center" href={`/${season.slug}`}>
+                {season.status === 'current' ? 'Open this season' : 'Read the archive'}
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <div class="card gradient-red-orange">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Why the seasons stay separate</h2>
+      <p class="mt-3 max-w-3xl text-slate-600 dark:text-slate-300">
+        A season is one run of the club — a start, a stretch of months, and an ending. We close each one out and keep
+        it exactly as it happened, because the workshops you joined and the rooms you filled are part of the club's
+        story, not a page we rewrite every year.
+      </p>
+      <p class="mt-3 max-w-3xl text-slate-600 dark:text-slate-300">
+        It also means the numbers mean something. The {totalParticipations} participations logged across these seasons
+        are what those seasons actually did, and they stay counted no matter what happens next. Every new season
+        starts its own count from zero.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

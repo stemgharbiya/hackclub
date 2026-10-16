@@ -1,6 +1,7 @@
 ---
 title: Toppings Workshop
 date: 2026-05-28
+season: 5
 provider: Hack Club
 outcome: Members leveled up their CSS skills — grids, flexboxes, animations, and responsive layouts — and earned rewards for boba or ice cream toppings.
 note: $150 income generated for the club from this workshop.

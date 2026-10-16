@@ -104,7 +104,7 @@ import LeaderSubmitButton from './LeaderSubmitButton.astro';
       <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Show us how you will lead, ship, and make the season memorable.</h3>
       <p class="text-sm text-slate-600 dark:text-slate-300">
         Check the details of{' '}
-        <a href="https://polygon.hackclub.com/club.html" target="_blank" rel="noreferrer">Polygon on polygon.hackclub.com</a>
+        <a class="underline" href="https://polygon.hackclub.com/club.html" target="_blank" rel="noreferrer">Polygon on polygon.hackclub.com</a>
         {' '}before you answer so your plan reflects a real direction.
       </p>
     </div>
@@ -183,7 +183,12 @@ import LeaderSubmitButton from './LeaderSubmitButton.astro';
     const setStatus = (message, tone = 'idle') => {
       if (!status) return;
       status.textContent = message;
-      status.style.color = tone === 'success' ? 'var(--green)' : tone === 'error' ? 'var(--red)' : 'var(--muted)';
+      status.style.color =
+        tone === 'success'
+          ? 'var(--figure-green)'
+          : tone === 'error'
+            ? 'var(--figure-red)'
+            : 'var(--text-muted)';
     };
 
     setStatus('Complete the verification widget before submitting.', 'idle');

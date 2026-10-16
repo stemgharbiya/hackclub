@@ -3,6 +3,7 @@ name: Amr Loksha
 role: Club Leader
 committee: Leadership
 order: 1
+season: 5
 photo: ../../assets/images/team/amr-loksha_club_leader.jpeg
 github: https://github.com/hack-club-gh
 instagram: https://www.instagram.com/gh_hackclub/
