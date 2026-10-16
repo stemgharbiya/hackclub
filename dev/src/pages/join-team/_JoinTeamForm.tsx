@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ACADEMIC_TRACK_OPTIONS,
@@ -29,6 +29,25 @@ const REGISTRATION_ENDPOINT =
 
 /** Gives up rather than leaving the button spinning forever on a dead host. */
 const REQUEST_TIMEOUT_MS = 15000;
+
+/**
+ * A non-OK response from the Worker.
+ *
+ * The Worker answers a rejected payload with a generic `error` plus an
+ * `errors` array naming every field it rejected. Dropping that array is what
+ * made the form unusable: the applicant saw "Some answers need attention."
+ * with no field names, the banner rendered off-screen above the submit
+ * button, and the only visible effect was the Turnstile widget restarting.
+ */
+class SubmissionError extends Error {
+  readonly details: string[];
+
+  constructor(message: string, details: string[]) {
+    super(message);
+    this.name = 'SubmissionError';
+    this.details = details;
+  }
+}
 
 /**
  * `text-base` on inputs is deliberate: anything under 16px makes iOS Safari
@@ -92,9 +111,22 @@ export default function JoinTeamForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<SubmissionStatus>('idle');
   const [serverMessage, setServerMessage] = useState<string>('');
+  const [serverDetails, setServerDetails] = useState<string[]>([]);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   // Incremented after a rejected submission to force a fresh Turnstile token.
   const [turnstileReset, setTurnstileReset] = useState(0);
+
+  // The alert renders above a tall step 2, so it has to be pulled into view.
+  // Focusing it is what actually scrolls: `scrollIntoView` with
+  // `behavior: 'smooth'` was a no-op in testing, which left the message
+  // off-screen at the very moment the applicant was watching the submit
+  // button and seeing nothing but the Turnstile widget restart.
+  const alertRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (status !== 'error') return;
+    alertRef.current?.focus();
+  }, [status, serverMessage]);
 
   const questionSet = useMemo(
     () => getQuestionSet(formData.committee, formData.academicTrack),
@@ -232,6 +264,7 @@ export default function JoinTeamForm() {
 
       if (!turnstileToken) {
         statusRef.current = 'error';
+        setServerDetails([]);
         setServerMessage('Please complete the verification challenge before submitting.');
         setStatus('error');
         return;
@@ -242,9 +275,15 @@ export default function JoinTeamForm() {
       statusRef.current = 'loading';
       setStatus('loading');
       setServerMessage('');
+      setServerDetails([]);
 
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+      // Only a response means siteverify ran and burned this token. A timeout or
+      // a dead host leaves it unspent, so the applicant can retry immediately
+      // instead of being sent back through the human check for nothing.
+      let tokenSpent = false;
 
       try {
         const response = await fetch(REGISTRATION_ENDPOINT, {
@@ -253,6 +292,8 @@ export default function JoinTeamForm() {
           body: JSON.stringify(payload),
           signal: controller.signal
         });
+
+        tokenSpent = true;
 
         const result = await response.json().catch(() => ({}) as Record<string, unknown>);
 
@@ -264,7 +305,15 @@ export default function JoinTeamForm() {
                 ? result.message
                 : 'We could not save your application right now. Please try again.';
 
-          throw new Error(reason);
+          // The Worker names every field it rejected, so the applicant can fix
+          // them instead of resubmitting blind.
+          const details = Array.isArray(result.errors)
+            ? (result.errors as unknown[]).filter(
+                (entry): entry is string => typeof entry === 'string'
+              )
+            : [];
+
+          throw new SubmissionError(reason, details);
         }
 
         statusRef.current = 'success';
@@ -281,11 +330,21 @@ export default function JoinTeamForm() {
 
         statusRef.current = 'error';
         setServerMessage(message);
+        setServerDetails(
+          error instanceof SubmissionError
+            ? error.details
+            : error instanceof DOMException && error.name === 'AbortError'
+              ? []
+              : ['Please check your connection and try submitting again.']
+        );
         setStatus('error');
-        // The server already spent this token during verification, so the next
-        // attempt needs a fresh challenge.
-        setTurnstileToken(null);
-        setTurnstileReset((signal) => signal + 1);
+
+        if (tokenSpent) {
+          // The server already spent this token during verification, so the next
+          // attempt needs a fresh challenge.
+          setTurnstileToken(null);
+          setTurnstileReset((signal) => signal + 1);
+        }
       } finally {
         clearTimeout(timeout);
       }
@@ -324,10 +383,19 @@ export default function JoinTeamForm() {
     <form className="w-full space-y-6" onSubmit={handleSubmit} noValidate>
       {status === 'error' && serverMessage && (
         <div
+          ref={alertRef}
           role="alert"
-          className="rounded-2xl border-2 border-[var(--red)] bg-[var(--red)]/10 px-4 py-4 text-sm font-medium leading-relaxed text-slate-900 dark:text-white sm:px-5"
+          tabIndex={-1}
+          className="rounded-2xl border-2 border-[var(--red)] bg-[var(--red)]/10 px-4 py-4 text-sm font-medium leading-relaxed text-slate-900 outline-none dark:text-white sm:px-5"
         >
           {serverMessage}
+          {serverDetails.length > 0 && (
+            <ul className="mt-2 list-disc space-y-1 pl-5 font-normal">
+              {serverDetails.map((detail) => (
+                <li key={detail}>{detail}</li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 
@@ -585,11 +653,7 @@ export default function JoinTeamForm() {
               </p>
 
               <div className="mt-5">
-                <Turnstile
-                  onToken={setTurnstileToken}
-                  disabled={isSubmitting}
-                  resetSignal={turnstileReset}
-                />
+                <Turnstile onToken={setTurnstileToken} resetSignal={turnstileReset} />
               </div>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

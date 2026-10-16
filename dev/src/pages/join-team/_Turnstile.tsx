@@ -34,12 +34,17 @@ const SITE_KEY = '0x4AAAAAAFTLsGbtY6v8AjV1';
 interface Props {
   /** Receives the token, or null while unsolved / expired / errored. */
   onToken: (token: string | null) => void;
-  disabled?: boolean;
   /**
    * Bump this to discard the current token and render a fresh challenge.
    *
    * Turnstile tokens are single-use: once the server has spent one during
    * siteverify, a retry with the same token fails as `timeout-or-duplicate`.
+   *
+   * This is the only channel that resets the widget. An earlier version also
+   * reset from a `disabled` prop, which fired on mount and threw away the
+   * token the widget had just issued, and fired again alongside this signal
+   * after a failed submit — so every rejection rendered two challenges in a
+   * row and the applicant never saw why their answer was rejected.
    */
   resetSignal?: number;
 }
@@ -52,7 +57,7 @@ interface Props {
  * hydrates, so auto-render has already swept the document. `?render=explicit`
  * plus a manual `turnstile.render()` is the reliable path from React.
  */
-export default function Turnstile({ onToken, disabled = false, resetSignal = 0 }: Props) {
+export default function Turnstile({ onToken, resetSignal = 0 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const onTokenRef = useRef(onToken);
@@ -105,14 +110,9 @@ export default function Turnstile({ onToken, disabled = false, resetSignal = 0 }
     };
   }, []);
 
-  // A widget solved before a retry still holds an expired token.
-  useEffect(() => {
-    if (disabled || !window.turnstile || widgetIdRef.current === null) return;
-    window.turnstile.reset(widgetIdRef.current);
-    onTokenRef.current(null);
-  }, [disabled]);
-
   // The server spent the previous token, so a new challenge is required.
+  // Skipped when `resetSignal` is 0 so the widget is left alone on first mount:
+  // resetting there would discard the token it is about to hand back.
   useEffect(() => {
     if (resetSignal === 0 || !window.turnstile || widgetIdRef.current === null) return;
     window.turnstile.reset(widgetIdRef.current);
