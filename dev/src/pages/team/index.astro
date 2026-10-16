@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TeamGrid from '../../components/TeamGrid.astro';
-import { getArchivedSeasons, getCurrentSeason, bySeason } from '../../lib/seasons';
+import { SEASONS, getArchivedSeasons, getCurrentSeason, bySeason } from '../../lib/seasons';
 import theme from '@hackclub/theme';
 
 const currentSeason = getCurrentSeason();
@@ -10,16 +10,21 @@ const archivedSeasons = getArchivedSeasons();
 
 const allMembers = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 
+// Every member must belong to a season listed in SEASONS. Without this, a typo
+// in a `season:` field would silently drop someone off the page forever.
+const knownSeasons = new Set(SEASONS.map((season) => season.number));
+const orphans = allMembers.filter((member) => !knownSeasons.has(member.data.season));
+
+if (orphans.length > 0) {
+  throw new Error(
+    `These team members have a season that is not in SEASONS (dev/src/lib/seasons.ts): ` +
+      `${orphans.map((member) => `${member.data.name} (season ${member.data.season})`).join(', ')}. ` +
+      'Add the season to SEASONS or correct the member file.'
+  );
+}
+
 // Only the live season is "the team". Past teams are archived, not deleted.
 const team = bySeason(allMembers, currentSeason.number);
-
-// Anything not in the current season or an archived one is grouped separately,
-// so a member is never silently dropped from the page.
-const groupedIds = new Set([
-  ...team.map((m) => m.id),
-  ...archivedSeasons.flatMap((season) => bySeason(allMembers, season.number).map((m) => m.id))
-]);
-const ungrouped = allMembers.filter((member) => !groupedIds.has(member.id));
 
 const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS === 'true';
 ---
@@ -31,7 +36,7 @@ const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS =
 >
   <!-- Hero Section -->
   <section class="card mb-12">
-    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-cyan)">// {currentSeason.label.toUpperCase()} · {currentSeason.years}</p>
+    <p class="text-sm font-semibold uppercase tracking-wide" style="color: var(--accent)">// {currentSeason.label.toUpperCase()} · {currentSeason.years}</p>
     <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl" style={`background-image: ${theme.util.gx('cyan', 'purple')}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;`}>Meet the team.</h1>
     <p class="mt-4 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
       Our Hack Club is run by passionate students who believe in learning by doing.
@@ -46,7 +51,7 @@ const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS =
         class="btn outline justify-center sm:justify-start"
         href={archivedSeasons[0] ? `#season-${archivedSeasons[0].number}-members` : '#all-members'}
       >
-        See former leaders
+        See past teams
       </a>
     </div>
   </section>
@@ -80,7 +85,7 @@ const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS =
   {showLeaderApplications && (
     <section class="mb-12">
       <div class="card gradient-red-orange">
-        <p class="text-sm font-semibold uppercase tracking-wide text-[var(--red)]">// WE'RE HIRING LEADERS</p>
+        <p class="text-sm font-semibold uppercase tracking-wide text-[var(--accent)]">// WE'RE HIRING LEADERS</p>
         <h2 class="mt-3 text-3xl font-bold text-slate-900 dark:text-white">Help shape the next season of the club.</h2>
         <p class="mt-4 max-w-3xl text-lg text-slate-600 dark:text-slate-300">
           We are looking for new leaders who can run workshops, coordinate events, and keep the club growing. If you want to apply, start with the form and show us how you would contribute.
@@ -100,14 +105,14 @@ const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS =
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
           {currentSeason.label} · {currentSeason.years}
         </p>
-        <h2 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{currentSeason.label} leaders</h2>
+        <h2 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{currentSeason.label} team</h2>
       </div>
       <span class="pill">{team.length} active members</span>
     </div>
     <TeamGrid team={team} />
   </section>
 
-  <!-- Former leaders, grouped by the season they ran -->
+  <!-- Past teams, grouped by the season they ran -->
   {
     archivedSeasons.map((season) => {
       const members = bySeason(allMembers, season.number);
@@ -118,10 +123,9 @@ const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS =
               <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
                 // {season.years} · ARCHIVED
               </p>
-              <h2 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{season.label} leaders</h2>
+              <h2 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{season.label} team</h2>
               <p class="mt-2 max-w-3xl text-slate-600 dark:text-slate-300">
-                These members led {season.label}. Their cards stay here because the work they did is still part of the
-                club's record.
+                These members led {season.label}. It was a pretty good season!
               </p>
             </div>
             <a
@@ -135,18 +139,6 @@ const showLeaderApplications = import.meta.env.PUBLIC_SHOW_LEADER_APPLICATIONS =
         </section>
       ) : null;
     })
-  }
-
-  <!-- Anything from a season with no dedicated page -->
-  {
-    ungrouped.length > 0 && (
-      <section class="mb-12">
-        <div class="mb-6">
-          <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Other former members</h2>
-        </div>
-        <TeamGrid team={ungrouped} variant="former" />
-      </section>
-    )
   }
 
   <!-- Join the Team CTA -->

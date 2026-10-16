@@ -24,12 +24,18 @@ const initialsOf = (name: string) =>
 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
   {
     team.map(({ data, body }) => (
-      <article class:list={['card', isFormer && 'opacity-90']}>
+      <article class="card">
         {data.photo ? (
           <Image
             src={data.photo}
             alt={data.name}
-            class="mb-4 h-56 w-full rounded-xl object-cover"
+            class:list={[
+              'mb-4 h-56 w-full rounded-xl object-cover',
+              // Archived cards are de-emphasised on the photo only. Setting
+              // `opacity` on the card itself pulled every label, role and bio
+              // below WCAG AA once composited over the page background.
+              isFormer && 'opacity-80 saturate-75'
+            ]}
             loading="lazy"
           />
         ) : (
@@ -43,7 +49,7 @@ const initialsOf = (name: string) =>
           </div>
         )}
         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">{data.name}</h3>
-        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">{data.role}</p>
+        <p class="text-sm font-medium" style="color: var(--accent)">{data.role}</p>
         <p class="mt-1 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {data.committee}
         </p>
