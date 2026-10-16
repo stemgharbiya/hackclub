@@ -102,8 +102,8 @@ const nextSeason = getArchivedSeasons().find((entry) => entry.number === season.
       <div class="card text-center">
         <h3 class="text-xl font-bold text-slate-900 dark:text-white">Nothing on the calendar yet.</h3>
         <p class="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
-          This season has just started. Workshops and events appear here as they are scheduled, tagged with the season
-          number so past seasons stay untouched.
+          This season has only just started. Everything we run gets listed here as soon as it is confirmed, in the
+          order it happens.
         </p>
         <div class="mt-6 flex flex-wrap justify-center gap-3">
           <a class="btn cta" href="/join-team">Join the team</a>
@@ -156,12 +156,12 @@ const nextSeason = getArchivedSeasons().find((entry) => entry.number === season.
 <section>
   <div class="card gradient-purple-blue">
     <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
-      {nextSeason ? `${nextSeason.label} is still here` : 'Every season gets an archive'}
+      {nextSeason ? `${nextSeason.label} is still here` : 'Last season is still here'}
     </h2>
     <p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
       {nextSeason
-        ? `${nextSeason.label} was archived rather than deleted. Its workshops, events, and numbers are all still on the site.`
-        : 'Closed seasons stay readable forever. Nothing gets deleted when a new one starts.'}
+        ? `We keep every season on the site. The workshops ${nextSeason.label} ran, the rooms it filled, and the numbers it added are all still here if you want to look back.`
+        : `Every season we have run stays on the site. Nothing gets taken down when the next one begins.`}
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
       <a class="btn outline" href="/seasons">Browse all seasons</a>

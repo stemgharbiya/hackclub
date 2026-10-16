@@ -3,10 +3,13 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node scripts/clean-content-cache.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/clean-content-cache.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "clean:cache": "node scripts/clean-content-cache.mjs",
     "worker:dev": "wrangler dev --config worker/wrangler.toml",
     "worker:deploy": "wrangler deploy --config worker/wrangler.toml",
     "worker:schema": "wrangler d1 execute gharbiya-join-team --file=worker/schema.sql --remote --config worker/wrangler.toml",

@@ -65,8 +65,8 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
     {
       showcaseIsArchived && (
         <p class="mt-6 text-sm text-slate-600 dark:text-slate-300">
-          Led by the {currentSeason.label} team, showing what {showcaseSeason.label} shipped. Every season is archived
-          at <a href="/seasons" style="color: var(--accent)">/seasons</a>.
+          Led by the {currentSeason.label} team, showing what {showcaseSeason.label} shipped. Every season is kept
+          on the <a href="/seasons" class="underline" style="color: var(--accent)">seasons page</a>.
         </p>
       )
     }
@@ -93,7 +93,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.
   <section class="mb-12">
     <div class="mb-5 flex items-end justify-between">
       <div>
-        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{currentSeason.label} leaders</h2>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{currentSeason.label} team</h2>
         <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">The team running the club right now.</p>
       </div>
       <a href="/team" class="text-sm font-semibold hover:opacity-80 transition-opacity" style="color: var(--accent)">Meet everyone</a>
