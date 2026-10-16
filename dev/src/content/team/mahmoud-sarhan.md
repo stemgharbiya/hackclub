@@ -4,7 +4,7 @@ role: Club Leader
 committee: Leadership
 order: 1
 season: 6
-photo: ../../assets/images/team/mahmoud.jpg
+photo: ../../assets/images/team/Mahmoud.jpg
 featured: true
 ---
 

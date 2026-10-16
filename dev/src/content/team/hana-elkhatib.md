@@ -4,7 +4,7 @@ role: Club Co-Leader
 committee: Leadership
 order: 3
 season: 6
-photo: ../../assets/images/team/hana.jpg
+photo: ../../assets/images/team/Hana.jpg
 featured: true
 ---
 
